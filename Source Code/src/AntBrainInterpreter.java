@@ -196,6 +196,7 @@ public class AntBrainInterpreter
 						if(nextToken.getIsInteger())
 						{
 							stateFalse = Integer.parseInt(nextToken.getActualValue());
+							nextToken = loader.getNextToken();
 						}
 						else
 						{
@@ -310,7 +311,7 @@ public class AntBrainInterpreter
 					}
 					
 					//Picking up food, similar to move, 2 ints, 1 for success, 1 for failure
-					else if(tokenVal.equals("Pickup"))
+					else if(tokenVal.equals("PickUp"))
 					{
 						int stateTrue = -1;
 						int stateFalse = -1;
