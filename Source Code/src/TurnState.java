@@ -3,8 +3,8 @@
  * A TurnState is an extension of state that also stores a LeftOrRight
  * enum to signify if it is a left or a right turn.
  * 
- * @author Owen
- * @version 18 May 2012
+ * @author Owen Cox
+ * @version 18/05/2012 - 1
  */
 public class TurnState extends State
 {

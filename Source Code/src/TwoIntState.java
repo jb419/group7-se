@@ -4,8 +4,8 @@
  * it is used in any case where more than 1 int is needed. For example
  * move needs a state to jump to if it can move as well as one if it cannot.
  * 
- * @author Owen
- * @version 18 May 2012
+ * @author Owen Cox
+ * @version 18/05/2012 - 1
  */
 public class TwoIntState extends State
 {

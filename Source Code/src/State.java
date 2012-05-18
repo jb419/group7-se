@@ -5,8 +5,8 @@
  * many subclasses, both to take advantage of polymorphism when storing it and
  * to allow different instructions to store more data.
  * 
- * @author Owen
- * @version 18 May 2012
+ * @author Owen Cox
+ * @version 18/05/2012 - 1
  */
 public class State
 {

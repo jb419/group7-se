@@ -4,8 +4,8 @@
  * and a direction to sense in. It will be used solely by the
  * SenseDir instruction.
  * 
- * @author Owen
- * @version 18 May 2012
+ * @author Owen Cox
+ * @version 18/05/2012 - 1
  */
 public class SenseDirState extends TwoIntState
 {
