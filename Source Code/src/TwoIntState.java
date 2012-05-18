@@ -5,7 +5,7 @@
  * move needs a state to jump to if it can move as well as one if it cannot.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 1
+ * @version 18/05/2012 - 2
  */
 public class TwoIntState extends State
 {
@@ -28,7 +28,8 @@ public class TwoIntState extends State
 	/**
 	 * Gets the other int stored by the state
 	 *
-	 * @return the other int stored by the state
+	 * @return the other int stored by the state. In cases where the ints are used to store states for
+	 *         positive and negative results of actions this one will be used for the negative result
 	 */
 	public int getOtherInt()
 	{
