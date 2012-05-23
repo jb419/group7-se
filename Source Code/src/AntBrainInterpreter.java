@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 2
+ * @version 23/05/2012 - 1
  */
 public class AntBrainInterpreter
 {
