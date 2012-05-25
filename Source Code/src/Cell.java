@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 25/05/2012 - 1
+ * @version 25/05/2012 - 4
  */
 public class Cell
 {
@@ -328,5 +328,21 @@ public class Cell
 			}
 		}
 		return returnString;
+	}
+	
+	/**
+	 * Finds the amount of food in this cell.
+	 */
+	public int calculateFoodAmount()
+	{
+		int score = 0;
+		for(int i = 0; i < contains.size(); i++)
+		{
+			if(contains.get(i).isFood())
+			{
+				score++;
+			}
+		}
+		return score;
 	}
 }
