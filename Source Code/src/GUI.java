@@ -2,7 +2,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -16,7 +15,7 @@ import javax.swing.*;
  * The sizes must be a multiple of 10, otherwise the JLables will not be displayed correctly.
  * 
  * @author Brett Flitter
- * @version 18/05/2012 - 1
+ * @version 25/05/2012 - 2
  */
 public class GUI
 {
@@ -32,6 +31,7 @@ public class GUI
 	private String lastPlayerAdded;
 	private String lastWorldAdded;
 	private Simulation simulation; 
+	private int dimension;
 	
 	/**
 	 * Constructor
@@ -41,7 +41,16 @@ public class GUI
 	{
 		this.simulation = simulation;
 		row = 150;
-		col = 150;  	   
+		col = 150;  	
+		
+		if (row == 150)
+		{
+			dimension = 3018;
+		}
+		else
+		{
+			dimension = 2018;
+		}
 		cells = new JLabel[row][col];
 		lastPlayerAdded = "";
 		lastWorldAdded = "";
@@ -126,10 +135,10 @@ public class GUI
 		//make center panel
 		JPanel centerPanel = new JPanel();
 		centerPanel.setBackground(Color.WHITE);
-		centerPanel.setLayout(new GridLayout(row , col));
-		//centerPanel.setPreferredSize(new Dimension(5400, 5400));
-		//centerPanel.setMinimumSize(new Dimension(5400, 5400));
-		//centerPanel.setMaximumSize(new Dimension(5400, 5400));
+		centerPanel.setLayout(new FlowLayout(0,0,0));
+		centerPanel.setPreferredSize(new Dimension(dimension, dimension));
+		centerPanel.setMinimumSize(new Dimension(dimension, dimension));
+		centerPanel.setMaximumSize(new Dimension(dimension, dimension));
 
 		// CREATE JLABELS TO DISPLAY CONTENTS OF CELLS
 		int num = 1;
@@ -141,7 +150,7 @@ public class GUI
 			{
 				// currently the JLabels display numbers so the programmer can see that the labels are aligned correctly.
 				JLabel cell = new JLabel("" + num, JLabel.CENTER);
-				cell.setPreferredSize(new Dimension(30, 30));
+				cell.setPreferredSize(new Dimension(20, 20));
 				cell.setBorder(BorderFactory.createLineBorder(Color.black));
 				cells[i][j] = cell;
 				centerPanel.add(cells[i][j]);
@@ -196,7 +205,7 @@ public class GUI
 	{
 		// creates a blank cell
 		JLabel blankCell = new JLabel(" ", JLabel.CENTER);
-		blankCell.setPreferredSize(new Dimension(30, 30));
+		blankCell.setPreferredSize(new Dimension(10, 20));
 		blankCell.setBorder(BorderFactory.createLineBorder(Color.black));
 		return blankCell;
 		
