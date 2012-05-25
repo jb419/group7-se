@@ -40,7 +40,7 @@ public class Cell
 	 *
 	 * @param a the Ant to add to the cell
 	 */
-	private void addAnt(Ant a)
+	public void addAnt(Ant a)
 	{
 		contains.add(a);
 	}
@@ -49,7 +49,7 @@ public class Cell
 	 * Adds a FoodPellet to the cell
 	 *
 	 */
-	private void addFood()
+	public void addFood()
 	{
 		contains.add(new FoodPellet());
 	}
@@ -59,7 +59,7 @@ public class Cell
 	 * 
 	 * @param c the colour of anthill to add to the cell
 	 */
-	private void addAntHill(AntColour c)
+	public void addAntHill(AntColour c)
 	{
 		contains.add(new AntHill(c));
 	}
@@ -68,7 +68,7 @@ public class Cell
 	 * Adds a rock to the cell
 	 * 
 	 */
-	private void addRock()
+	public void addRock()
 	{
 		contains.add(new Rock());
 	}
@@ -81,7 +81,7 @@ public class Cell
 	 *
 	 * @param a the ant to remove from the cell
 	 */
-	private void removeAnt(Ant a)
+	public void removeAnt(Ant a)
 	{
 		contains.remove(a); //This uses == equality which is ideal for this purpose
 	}
@@ -90,7 +90,7 @@ public class Cell
 	 * Removes a food pellet from the cell
 	 *
 	 */
-	private void removeFood()
+	public void removeFood()
 	{
 		int i = 0;
 		while(i < contains.size() && !contains.get(i).isFood())
