@@ -4,7 +4,7 @@
  * store what number of marker it should be looking for.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 2
+ * @version 27/05/2012 - 1
  */
 public class SenseDirMarkerState extends SenseDirState
 {
@@ -25,5 +25,15 @@ public class SenseDirMarkerState extends SenseDirState
 	{
 		super(nextState, instruction, otherInt, condition, senseDir);
 		this.markerNumber = markerNumber;
+	}
+	
+	/**
+	 * The getMarkerNumber method gets the marker number to check when sensing.
+	 *
+	 * @return the marker that should be checked
+	 */
+	public int getMarkerNumber()
+	{
+		return markerNumber;
 	}
 }
