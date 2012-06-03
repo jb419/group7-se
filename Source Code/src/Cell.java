@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 25/05/2012 - 4
+ * @version 03/06/1012 - 1
  */
 public class Cell
 {
@@ -124,7 +124,7 @@ public class Cell
 		/////////////////////////////Checking for conditions related to ants/////////////////////////////
 		if(c == Condition.BlackAnt || c == Condition.RedAnt|| c == Condition.BlackAntWithFood || c == Condition.RedAntWithFood)
 		{
-			while((!a.isAnt(AntColour.Red) || !a.isAnt(AntColour.Black)) && i < contains.size())
+			while((!a.isAnt(AntColour.Red) && !a.isAnt(AntColour.Black)) && i < contains.size())
 			{
 				i ++;
 			}
@@ -164,7 +164,7 @@ public class Cell
 		/////////////////////////////Dealing with conditions related to the ant hills./////////////////////////////
 		else if(c == Condition.RedHill || c == Condition.BlackHill)
 		{
-			while((!a.isAntHill(AntColour.Red) || !a.isAntHill(AntColour.Black)) && i < contains.size())
+			while((!a.isAntHill(AntColour.Red) && !a.isAntHill(AntColour.Black)) && i < contains.size())
 			{
 				i ++;
 			}
@@ -344,5 +344,22 @@ public class Cell
 			}
 		}
 		return score;
+	}
+	
+	/**
+	 * The getAnt method returns the ant in the cell
+	 *
+	 * @return the ant in the cell
+	 */
+	public Ant getAnt()
+	{
+		int i = 0;
+		Actor a = contains.get(i);
+		while(!a.isAnt(AntColour.Red) && !a.isAnt(AntColour.Black) && i < contains.size())
+		{
+			i++;
+			a = contains.get(i);
+		}
+		return (Ant)a;
 	}
 }

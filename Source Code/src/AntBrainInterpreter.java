@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 23/05/2012 - 1
+ * @version 03/06/1012 - 1
  */
 public class AntBrainInterpreter
 {
@@ -38,6 +38,16 @@ public class AntBrainInterpreter
 		nextToken = loader.getNextToken();
 		
 		createStates();
+	}
+	
+	/**
+	 * The getStates method gets the list of states the interpreter has found.
+	 *
+	 * @return the arraylist of states the interpreter has found
+	 */
+	public ArrayList<State> getStates()
+	{
+		return states;
 	}
 	
 	/**
