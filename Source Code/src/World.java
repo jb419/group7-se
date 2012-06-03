@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox
- * @version 03/06/1012 - 2
+ * @version 03/06/1012 - 4
  */
 public class World
 {
@@ -46,9 +46,15 @@ public class World
 	
 	private World(String brainLocRed, String brainLocBlack, String worldLoc)
 	{
-		redI = new AntBrainInterpreter(brainLocRed);
-		blackI = new AntBrainInterpreter(brainLocBlack);
-		//TODO: Try/catch block here to prevent problems with adding ant brains.
+		try
+		{
+			redI = new AntBrainInterpreter(brainLocRed);
+			blackI = new AntBrainInterpreter(brainLocBlack);
+		}
+		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
+		{
+			System.err.println(e);
+		}
 		if(worldLoc == null)
 		{
 			WorldGenerator wg = new WorldGenerator();
@@ -157,6 +163,11 @@ public class World
 		cells[row][col].addFood();
 	}
 	
+	/**
+	 * The removeFood method removes a food pellet from a specified cell
+	 *
+	 * @param pos the position of the cell to remove the food pellet from
+	 */
 	public void removeFood(int[] pos)
 	{
 		int row = pos[0];
@@ -176,10 +187,10 @@ public class World
 			{
 				if(cells[i][j].checkCondition(Condition.BlackHill))
 				{
-					//TODO: Work out this code, where will world get the brain from?
 					Ant a = new Ant(this, new AntBrain(blackI.getStates(), a) , AntColour.Black); //Creates a new ant
 					cells[i][j].addAnt(a); //add the created ant to the cell
-					//updates the ant's information about its position in the world
+					int[] pos = {i, j};
+					a.setPos(pos); //Set the ants position to be correct
 					ants[ants.length] = a; //Sets the next free element of ants to be = to the created ant
 				}
 				else if(cells[i][j].checkCondition(Condition.RedHill))
@@ -201,7 +212,7 @@ public class World
 		switch(d)
 		{
 			case NW:
-				if(y % 2 == 0) //% finds remainer, this is the same as saying if even
+				if(y % 2 == 0) //% finds remainder, this is the same as saying if even
 				{
 					x--;
 					y--;
@@ -213,7 +224,7 @@ public class World
 				}
 				break;
 			case NE:
-				if(y % 2 == 0) //% finds remainer, this is the same as saying if even
+				if(y % 2 == 0) //% finds remainder, this is the same as saying if even
 				{
 					//x unchanged
 					y--;
@@ -228,7 +239,7 @@ public class World
 				x++;
 				break;
 			case SE:
-				if(y % 2 == 0) //% finds remainer, this is the same as saying if even
+				if(y % 2 == 0) //% finds remainder, this is the same as saying if even
 				{
 					//x unchanged
 					y++;
@@ -240,7 +251,7 @@ public class World
 				}
 				break;
 			case SW:
-				if(y % 2 == 0) //% finds remainer, this is the same as saying if even
+				if(y % 2 == 0) //% finds remainder, this is the same as saying if even
 				{
 					x--;
 					y++;
