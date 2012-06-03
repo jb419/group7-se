@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -5,8 +6,8 @@ import java.util.regex.Pattern;
  * The Simulation class is the first class to be created. It's responsible for keeping the GUI and tournament updated.
 
  * 
- * @author Brett Flitter
- * @version 20/05/2012 - 1
+ * @author Brett Flitter, Owen Cox
+ * @version 03/06/2012 - 3
  */
 public class Simulation
 {
@@ -18,7 +19,7 @@ public class Simulation
 	private int foodBlack;
 	private GUI gui;
 	private Boolean isError;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -27,9 +28,9 @@ public class Simulation
 
 		gui = new GUI(this);
 		tournament = new Tournament();
-		
+
 	}
-	
+
 	/**
 	 * The addPlayerAndBrain method is used to add the players along with their brain location.
 	 * It takes a string and uses a regular expression to divide the player's name from its brain location.
@@ -41,23 +42,42 @@ public class Simulation
 	{
 		Pattern p = Pattern.compile("([a-zA-Z0-9]+);([a-zA-Z]:.+\\.txt)");
 
-			Matcher m = p.matcher(playerAndBrain);
-			if (m.find())
-			{	
-				// if (findBrain())
-				//{
-					//CALL TO ANTBRAIN INTERPRETER TO CHECK THAT BRAIN LOCATION IS OK & BRAIN IS WELL FORMED
-					tournament.addPlayer(m.group(1), m.group(2));
-				//}
-			}
-			else
-			{
-				gui.incorrectNameOrBrain();
+		Matcher m = p.matcher(playerAndBrain);
+		if (m.find())
+		{
+			String brainLoc = m.group(0);
+			boolean goodBrain = true;
+			File f = new File(brainLoc);
 
+			//Checking that the brain exists and can be read by this file
+			if(!f.canRead())
+			{
+				goodBrain = false;
 			}
-		
+
+			//Checking that the brain is syntactically correct
+			try
+			{
+				AntBrainInterpreter abi = new AntBrainInterpreter(brainLoc);
+			}
+			catch(Exception e)
+			{
+				goodBrain = false;
+			}
+
+			if (goodBrain)
+			{
+				tournament.addPlayer(m.group(1), m.group(2));
+			}
+		}
+		else
+		{
+			gui.incorrectNameOrBrain();
+
+		}
+
 	}
-	
+
 	/**
 	 * The addWorldLocaions method is used to add the word 
 	 * locations.
@@ -66,37 +86,42 @@ public class Simulation
 	public void addWorldLocation(String worldLocation)
 	{
 		Pattern p = Pattern.compile("([a-zA-Z]:.*\\.txt)");
-		
-			Matcher m = p.matcher(worldLocation);
-			if (m.find())
-			{	
-				// if (findWorld())
-				//{
-					//CALL TO WORLD TO CHECK THE WORLD LOCATION IS CORRECT & WORLD IS WELL FORMED
-					tournament.addWorld(m.group(1));
-				//}
-			}
-			else 
+
+		Matcher m = p.matcher(worldLocation);
+		if (m.find())
+		{	
+			boolean goodWorld = true;
+			String worldLoc = m.group(1);
+			File f = new File(worldLoc);
+			//Checking that the file exists and is reachable
+			if(!f.canRead())
 			{
-				gui.incorrectWorld();
+				goodWorld = false;
 			}
-		
+			//CALL TO WORLDLOADER TO CHECK THE WORLD LOCATION IS CORRECT & WORLD IS WELL FORMED
+			tournament.addWorld(worldLoc);
+		}
+		else 
+		{
+			gui.incorrectWorld();
+		}
+
 	}
-	
-	
+
+
 	//private boolean findBrain()
 	//{
 	//	if brain is ok then return true
 	//}
-	
+
 	//priave boolean findWorld()
 	//{ 
 	// if world is ok then return true
 	//}
-	
+
 	public static void main(String args[])
 	{
 		new Simulation();
 	}
-	
+
 }
