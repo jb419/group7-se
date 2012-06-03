@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox
- * @version 03/06/1012 - 1
+ * @version 03/06/1012 - 2
  */
 public class World
 {
@@ -143,6 +143,25 @@ public class World
 		}
 		cell.addAntHill(c);
 		hills[side][hills[side].length] = cell; //add the cell to the end of the array
+	}
+	
+	/**
+	 * The addFood method adds a food pellet to a given cell
+	 *
+	 * @param pos the cell to add the food pellet to
+	 */
+	public void addFood(int[] pos)
+	{
+		int row = pos[0];
+		int col = pos[1];
+		cells[row][col].addFood();
+	}
+	
+	public void removeFood(int[] pos)
+	{
+		int row = pos[0];
+		int col = pos[1];
+		cells[row][col].removeFood();
 	}
 	
 	/**
@@ -367,6 +386,22 @@ public class World
 		int row = pos[0];
 		int col = pos[1];
 		cells[row][col].unmark(chemId, colour);
+	}
+	
+	/**
+	 * The marked method checks if a cell is marked with a specific marker by
+	 * a specific colour of ant
+	 *
+	 * @param pos the position of the cell to check
+	 * @param markerNumber the number of marker to check for
+	 * @param c the colour of ant to check for the marker of
+	 * @return if the cell if marker with the specific coloured marker type
+	 */
+	public boolean marked(int[] pos, int markerNumber, AntColour c)
+	{
+		int row = pos[0];
+		int col = pos[1];
+		return cells[row][col].isMarked(c, markerNumber);
 	}
 	
 	/**
