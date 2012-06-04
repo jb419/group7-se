@@ -4,7 +4,7 @@
  * enum to signify if it is a left or a right turn.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 1
+ * @version 04/06/2012 - 1
  */
 public class TurnState extends State
 {
@@ -19,7 +19,7 @@ public class TurnState extends State
 	 */
 	public TurnState(int nextState, Instruction instruction, LeftOrRight lr)
 	{
-		super(nextState, instruction)
+		super(nextState, instruction);
 		this.lr = lr;
 	}
 	

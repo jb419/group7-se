@@ -3,7 +3,7 @@
  * 
  * 
  * @author Owen Cox
- * @version 03/06/1012 - 2
+ * @version 04/06/2012 - 1
  */
 public class Ant extends Actor
 {
@@ -16,6 +16,13 @@ public class Ant extends Actor
 	private Direction direction;
 	private World world;
 	
+	/**
+	 * Constructor for objects of type Ant
+	 * 
+	 * @param world the world the ant belongs to
+	 * @param antBrain the brain the ant has
+	 * @param colour the colour of the ant
+	 */
 	public Ant(World world, AntBrain antBrain, AntColour colour)
 	{
 		this.world = world;
@@ -29,6 +36,16 @@ public class Ant extends Actor
 		position = new int[2];
 		position[0] = -1;
 		position[1] = -1;
+	}
+	
+	/**
+	 * The hasFood method checks if the ant is holding a food pellet
+	 *
+	 * @return true if the ant has food, false otherwise
+	 */
+	public boolean hasFood()
+	{
+		return hasFood;
 	}
 	
 	/**

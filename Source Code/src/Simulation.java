@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 03/06/2012 - 3
+ * @version 04/06/2012 - 1
  */
 public class Simulation
 {
@@ -28,7 +28,84 @@ public class Simulation
 
 		gui = new GUI(this);
 		tournament = new Tournament();
-
+		sidesSwapped = false;
+		int foodRed = 0;
+		int foodBlack = 0;
+		int numTick = 0;
+	}
+	
+	/**
+	 * The run method runs through each possible matching of brains in the tournament and pits them
+	 * against one another, playing 2 rounds for each.
+	 *
+	 */
+	public void run()
+	{
+		while(tournament.hasMoreGames())
+		{
+			//Set up a new game
+			//get the next 2 players
+			String[] players = tournament.nextContestants();
+			String redPlayer = players[0];
+			String blackPlayer = players[1];
+			
+			//get the next world
+			String nextWorld = null;
+			if(tournament.hasWorld())
+			{
+				nextWorld = tournament.getNextWorld();
+			}
+			
+			//create the new world for these players
+			World.getNewWorld(players[0], players[1], nextWorld);
+			
+			//run the new game
+			int roundLength = 200000; //TODO: number of ticks in a game?
+			
+			//round 1
+			for(numTick = 0; numTick < roundLength; numTick++)
+			{
+				World.getWorld().update();
+				foodRed = World.getWorld().calculateScore(AntColour.Red);
+				foodBlack = World.getWorld().calculateScore(AntColour.Black);
+				//Update GUI
+			}
+			
+			//Aftermath of round 1
+			if(foodRed > foodBlack)
+			{
+				tournament.addPoints(AntColour.Red, 1);
+			}
+			else
+			{
+				tournament.addPoints(AntColour.Black, 1);
+			}
+			
+			//swap sides
+			World.getWorld().swapSides();
+			
+			//round 2
+			for(numTick = 0; numTick < roundLength; numTick++) 
+			{
+				World.getWorld().update();
+				foodRed = World.getWorld().calculateScore(AntColour.Red);
+				foodBlack = World.getWorld().calculateScore(AntColour.Black);
+				//Update GUI
+			}
+			
+			//aftermath of round 2
+			if(foodRed > foodBlack)
+			{
+				tournament.addPoints(AntColour.Red, 1);
+			}
+			else
+			{
+				tournament.addPoints(AntColour.Black, 1);
+			}
+		}
+		
+		String victor = tournament.getVictor(); 
+		//TODO: add code to display victor in GUI.
 	}
 
 	/**
