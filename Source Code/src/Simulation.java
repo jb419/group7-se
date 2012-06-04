@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 3
+ * @version 04/06/2012 - 4
  */
 public class Simulation
 {
@@ -99,11 +99,11 @@ public class Simulation
 			//Aftermath of round 1
 			if(foodRed > foodBlack)
 			{
-				tournament.addPoints(AntColour.Red, 1);  // addpoints() is implemented in tournament according to the LLD. Should this be the players name?
+				tournament.addPoints("red", 1);  // addpoints() is implemented in tournament according to the LLD. Should this be the players name?
 			}
 			else
 			{
-				tournament.addPoints(AntColour.Black, 1);
+				tournament.addPoints("black", 1);
 			}
 			
 			//swap sides
@@ -137,11 +137,11 @@ public class Simulation
 			//aftermath of round 2
 			if(foodRed > foodBlack)
 			{
-				tournament.addPoints(AntColour.Red, 1);
+				tournament.addPoints("red", 1);
 			}
 			else
 			{
-				tournament.addPoints(AntColour.Black, 1);
+				tournament.addPoints("black", 1);
 			}
 		}
 		

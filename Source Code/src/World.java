@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 04/06/1012 - 5
+ * @version 04/06/1012 - 4
  */
 public class World
 {
@@ -20,7 +20,7 @@ public class World
 	public static World getNewWorld(String blackAntBrain, String redAntBrain, WorldToken[][] world)
 	{
 		theWorld = new World(blackAntBrain, redAntBrain, world);
-		getWorld();
+		return getWorld();
 	}
 	
 	/**
@@ -67,22 +67,22 @@ public class World
 				cells[row][col] = c;
 				switch(worldInitial[row][col].getType())
 				{
-					case WorldTokenType.Food://Add various stuff to cells
+					case Food://Add various stuff to cells
 						for(int i = 0; i < 9; i++)
 						{
 							c.addFood();
 						}
 						break;
 						
-					case WorldTokenType.RedAntHill:
+					case RedAntHill:
 						addAntHill(AntColour.Red, c);
 						break;
 						
-					case WorldTokenType.BlackAntHill:
+					case BlackAntHill:
 						addAntHill(AntColour.Black, c);
 						break;
 						
-					case WorldTokenType.Rock:
+					case Rock:
 						c.addRock();
 						break;
 				}
@@ -102,22 +102,22 @@ public class World
 				cells[row][col] = c;
 				switch(worldInitial[row][col].getType())
 				{
-					case WorldTokenType.Food://Add various stuff to cells
+					case Food://Add various stuff to cells
 						for(int i = 0; i < 9; i++)
 						{
 							c.addFood();
 						}
 						break;
 						
-					case WorldTokenType.RedAntHill:
+					case RedAntHill:
 						addAntHill(AntColour.Black, c);
 						break;
 						
-					case WorldTokenType.BlackAntHill:
+					case BlackAntHill:
 						addAntHill(AntColour.Red, c);
 						break;
 						
-					case WorldTokenType.Rock:
+					case Rock:
 						c.addRock();
 						break;
 				}
@@ -179,7 +179,8 @@ public class World
 			{
 				if(cells[i][j].checkCondition(Condition.BlackHill))
 				{
-					Ant a = new Ant(this, new AntBrain(blackI.getStates(), a) , AntColour.Black); //Creates a new ant
+					Ant a = new Ant(this, AntColour.Black); //Creates a new ant
+					a.setAntBrain(new AntBrain(blackI.getStates(), a));
 					cells[i][j].addAnt(a); //add the created ant to the cell
 					int[] pos = {i, j};
 					a.setPos(pos); //Set the ants position to be correct
@@ -187,7 +188,8 @@ public class World
 				}
 				else if(cells[i][j].checkCondition(Condition.RedHill))
 				{
-					Ant a = new Ant(this, new AntBrain(redI.getStates(), a) , AntColour.Red);
+					Ant a = new Ant(this, AntColour.Red);
+					a.setAntBrain(new AntBrain(redI.getStates(), a));
 					cells[i][j].addAnt(a);
 					ants[ants.length] = a;
 				}

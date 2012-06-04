@@ -3,7 +3,7 @@
  * 
  * 
  * @author Owen Cox
- * @version 04/06/2012 - 1
+ * @version 04/06/2012 - 4
  */
 public class Ant extends Actor
 {
@@ -23,10 +23,9 @@ public class Ant extends Actor
 	 * @param antBrain the brain the ant has
 	 * @param colour the colour of the ant
 	 */
-	public Ant(World world, AntBrain antBrain, AntColour colour)
+	public Ant(World world, AntColour colour)
 	{
 		this.world = world;
-		this.brain = antBrain;
 		this.colour = colour;
 		
 		resting = 0;
@@ -36,6 +35,11 @@ public class Ant extends Actor
 		position = new int[2];
 		position[0] = -1;
 		position[1] = -1;
+	}
+	
+	public void setAntBrain(AntBrain antBrain)
+	{
+		this.brain = antBrain;
 	}
 	
 	/**
