@@ -1,13 +1,11 @@
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * Tournament class keeps track of the players and their statistics 
  * Keeps track of the current world be used
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 1
+ * @version 04/06/2012 - 2
  */
 public class Tournament
 {
@@ -91,6 +89,7 @@ public class Tournament
 		return !(enteredWorlds.size() == 0);
 	}
 	
+	//Can probably be removed
 	private void swapSides()
 	{
 		Entry player1 = currentRed;

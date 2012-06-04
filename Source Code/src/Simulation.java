@@ -7,18 +7,18 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 1
+ * @version 04/06/2012 - 2
  */
 public class Simulation
 {
 	private Tournament tournament;
 	//private World world;
-	private Boolean sidesSwapped;
+	private Boolean sidesSwapped; //Not used, should maybe be removed?
 	private int numTick;
 	private int foodRed;
 	private int foodBlack;
 	private GUI gui;
-	private Boolean isError;
+	private Boolean isError; //Not sure where this would be used
 
 	/**
 	 * Constructor
@@ -48,6 +48,8 @@ public class Simulation
 			String[] players = tournament.nextContestants();
 			String redPlayer = players[0];
 			String blackPlayer = players[1];
+			gui.setRedPlayerName(redPlayer); //TODO: Add setRedPlayer/BlackPlayer methods to GUI, these methods should update the player name displays (check on LLD if method should already exist)
+			gui.setBlackPlayerName(blackPlayer);
 			
 			//TODO: Get red brain and black brain
 			String blackBrain = /*code here*/"";
@@ -86,7 +88,7 @@ public class Simulation
 					for(int c = 0; c < grid.length; c++)
 					{
 						String tileValue = grid[r][c];
-						gui.updateLabel(r, c, tileValue);						
+						gui.updateLabel(r, c, tileValue);//TODO: add updateLabel to GUI the label should be set to a given string (check LLD for better named method)					
 					}
 				}
 			}
@@ -141,6 +143,7 @@ public class Simulation
 		}
 		
 		String victor = tournament.getVictor(); 
+		gui.showVictor(victor); //TODO: add showVictor to GUI, should display victor's name in a popup or something, check on LLD if method should be named differently
 		//TODO: add code to display victor in GUI.
 	}
 
@@ -171,6 +174,7 @@ public class Simulation
 			//Checking that the brain is syntactically correct
 			try
 			{
+				@SuppressWarnings("unused")
 				AntBrainInterpreter abi = new AntBrainInterpreter(brainLoc);
 			}
 			catch(Exception e)
@@ -211,8 +215,11 @@ public class Simulation
 			{
 				goodWorld = false;
 			}
-			//CALL TO WORLDLOADER TO CHECK THE WORLD LOCATION IS CORRECT & WORLD IS WELL FORMED
-			tournament.addWorld(worldLoc);
+			//TODO: add use of WorldLoader here to check if world is properly formed
+			if(goodWorld)
+			{
+				tournament.addWorld(worldLoc);
+			}
 		}
 		else 
 		{
@@ -222,6 +229,7 @@ public class Simulation
 	}
 
 
+	//These can be removed, are currently being dealt with in the adding methods.
 	//private boolean findBrain()
 	//{
 	//	if brain is ok then return true
