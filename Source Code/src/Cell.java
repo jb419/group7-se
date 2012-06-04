@@ -199,9 +199,9 @@ public class Cell
 		//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
 		else if(c == Condition.RedMarker)
 		{
-			for(int j = 0; i < redMarkers.length; i++)
+			for(int j = 0; j < redMarkers.length; j++)
 			{
-				if(redMarkers[i])
+				if(redMarkers[j])
 				{
 					b = true;
 				}
@@ -209,9 +209,9 @@ public class Cell
 		}
 		else if(c == Condition.BlackMarker)
 		{
-			for(int j = 0; i < blackMarkers.length; i++)
+			for(int j = 0; j < blackMarkers.length; j++)
 			{
-				if(redMarkers[i])
+				if(blackMarkers[j])
 				{
 					b = true;
 				}
@@ -233,10 +233,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				b = blackMarkers[markerType + 1]; //Looks at markerType + 1 so it is looking at 1 - 6 not 0 - 5
+				b = blackMarkers[markerType - 1]; //- 1 since input will be 1 - 6 and array looks at 0 to 5
 				break;
 			case Red:
-				b = redMarkers[markerType + 1];
+				b = redMarkers[markerType - 1];
 				break;
 		}
 		return b;

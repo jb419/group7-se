@@ -6,8 +6,8 @@ import java.util.regex.Pattern;
  * Tournament class keeps track of the players and their statistics 
  * Keeps track of the current world be used
  * 
- * @author Brett Flitter
- * @version 22/05/2012 - 3
+ * @author Brett Flitter, Owen Cox
+ * @version 04/06/2012 - 1
  */
 public class Tournament
 {
@@ -56,9 +56,9 @@ public class Tournament
 	 * @param player takes the player to have its points updated
 	 * @param points takes the new number of points to be stored
 	 */
-	public void addPoints(String player, int points)
+	public void addPoints(AntColour colour, int points)
 	{
-		if (player.equals("black"))
+		if (colour == AntColour.Black)
 		{
 			currentBlack.setPoints(points);
 		}
@@ -79,6 +79,16 @@ public class Tournament
 		enteredWorlds.remove(0);
 		enteredWorlds.add(nextWorld);
 		return nextWorld;
+	}
+	
+	/**
+	 * The hasWorld method checks if the tournament has had a world entered into it.
+	 *
+	 * @return a boolean representing if the tournament has any entered worlds.
+	 */
+	public boolean hasWorld()
+	{
+		return !(enteredWorlds.size() == 0);
 	}
 	
 	private void swapSides()

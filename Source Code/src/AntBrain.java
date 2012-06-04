@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * and what to do.
  * 
  * @author Owen Cox
- * @version 27/05/2012 - 1
+ * @version 04/06/2012 - 1
  */
 //Will not work until ant is completed.
 public class AntBrain
@@ -97,12 +97,12 @@ public class AntBrain
 			case Unmark:
 				TwoIntState unmarkState = (TwoIntState)examinedState;
 				ant.unmark(unmarkState.getOtherInt());
-				currentState = markState.getNextState();
+				currentState = unmarkState.getNextState();
 				break;
 				
 			case Flip:
 				ThreeIntState flipState = (ThreeIntState)examinedState;
-				if(flip(flipState.getThirdInt()));
+				if(flip(flipState.getThirdInt()))
 				{
 					currentState = flipState.getNextState();
 				}
@@ -170,7 +170,7 @@ public class AntBrain
 	 */
 	private Condition translateCondition(BrainCondition brainCond)
 	{
-		Condition c;
+		Condition c = null;
 		switch(brainCond)
 		{
 			case Friend:
