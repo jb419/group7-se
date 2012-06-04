@@ -614,7 +614,7 @@ public class WorldChecker {
 		int limit = 0;
 		if ( currentWorld.length == 150)
 		{
-			limit = 11; // World should have 14 blobs of food
+			limit = 11; // World should have 11 blobs of food
 		}
 		else if ( currentWorld.length == 100)
 		{
@@ -1084,7 +1084,7 @@ public class WorldChecker {
 							correct = false;
 							}
 						}
-						if (currentWorld[i+7][j-1].getType() == WorldTokenType.Food && !seen[i+7][j-1] && currentWorld[i+7][j].getType().equals("5") && !seen[i+7][j])
+						if (currentWorld[i+7][j-1].getType() == WorldTokenType.Food && !seen[i+7][j-1] && currentWorld[i+7][j].getType() == WorldTokenType.Food && !seen[i+7][j])
 						{
 							seen[i+7][j-1] = true;
 							seen[i+7][j] = true;

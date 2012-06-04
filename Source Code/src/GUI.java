@@ -312,12 +312,20 @@ public class GUI
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			// set text fields so to un-editable
-			playerNameTextField.setEditable(false); 
-			worldLocationTextField.setEditable(false);
+			if(simulation.getNumOfPlayers()>= 2)
+			{
+				// set text fields so to un-editable
+				playerNameTextField.setEditable(false); 
+				worldLocationTextField.setEditable(false);
 			
-			// WAKEY WAKEY SIMULATOR TIME TO START
-			simulation.run();
+				// WAKEY WAKEY SIMULATOR TIME TO START
+			
+				simulation.run();
+			}
+			else
+			{
+				outPutError("Not enough players!");
+			}
 		}
 	}
 	

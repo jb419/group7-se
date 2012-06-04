@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 4
+ * @version 04/06/2012 - 5
  */
 public class Simulation
 {
@@ -17,6 +17,8 @@ public class Simulation
 	private int foodBlack;
 	private GUI gui;
 	private WorldLoader worldLoader;
+	private int numOfPlayers;
+	private int numOfWorlds;
 
 
 	
@@ -188,6 +190,7 @@ public class Simulation
 			if (goodBrain)
 			{
 				tournament.addPlayer(m.group(1), m.group(2));
+				numOfPlayers++;
 			}
 		}
 		else
@@ -214,6 +217,7 @@ public class Simulation
 				if (world != null)
 				{
 					tournament.addWorld(world);
+					numOfWorlds++;
 				}
 				else
 				{
@@ -225,6 +229,15 @@ public class Simulation
 				gui.outPutError("world");
 			}
 		
+	}
+	
+	/**
+	 * Get the number of players
+	 * @return number of players
+	 */
+	public int getNumOfPlayers()
+	{
+		return numOfPlayers;
 	}
 	
 	
