@@ -2,8 +2,8 @@
  * A World is a singleton object that stores a set of cells and has methods
  * to manipulate those cells
  * 
- * @author Owen Cox
- * @version 03/06/1012 - 4
+ * @author Owen Cox, Brett Flitter
+ * @version 04/06/1012 - 5
  */
 public class World
 {
@@ -17,9 +17,9 @@ public class World
 	 * @param worldLocation the location of the world
 	 * @return the new world that was created
 	 */
-	public static World getNewWorld(String blackAntBrain, String redAntBrain, String worldLocation)
+	public static World getNewWorld(String blackAntBrain, String redAntBrain, WorldToken[][] world)
 	{
-		theWorld = new World(blackAntBrain, redAntBrain, worldLocation);
+		theWorld = new World(blackAntBrain, redAntBrain, world);
 		getWorld();
 	}
 	
@@ -44,27 +44,19 @@ public class World
 	private AntBrainInterpreter redI;
 	private AntBrainInterpreter blackI;
 	
-	private World(String brainLocRed, String brainLocBlack, String worldLoc)
+	private World(String brainLocRed, String brainLocBlack, WorldToken[][] world)
 	{
 		try
 		{
 			redI = new AntBrainInterpreter(brainLocRed);
 			blackI = new AntBrainInterpreter(brainLocBlack);
+			worldInitial = world;
 		}
 		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
 		{
 			System.err.println(e);
 		}
-		if(worldLoc == null)
-		{
-			WorldGenerator wg = new WorldGenerator();
-			worldInitial = wg.getTokens();
-		}
-		else
-		{
-			WorldLoader wl = new WorldLoader(worldLoc);
-			worldInitial = wl.getTokens();
-		}
+		
 		ants = new Ant[182];
 		
 		for(int row = 0; row < WORLD_SIZE; row++)

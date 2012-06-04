@@ -1,15 +1,17 @@
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Tournament class keeps track of the players and their statistics 
  * Keeps track of the current world be used
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 2
+ * @version 04/06/2012 - 4
  */
 public class Tournament
 {
-	private ArrayList<String> enteredWorlds;
+	private ArrayList<WorldToken[][]> enteredWorlds;
 	private ArrayList<Entry> enteredBrains;
 	private Entry currentRed;
 	private Entry currentBlack;
@@ -22,7 +24,7 @@ public class Tournament
 	public Tournament()
 	{	
 		enteredBrains = new ArrayList<Entry>();
-		enteredWorlds = new ArrayList<String>();
+		enteredWorlds = new ArrayList<WorldToken[][]>();
 
 	}
 	
@@ -44,9 +46,9 @@ public class Tournament
 	 * The addWorld() method adds an individual world to an array of Strings (world locations)
 	 * @param worldLocation the world location as a String
 	 */
-	public void addWorld(String worldLocation)
+	public void addWorld(WorldToken[][] world)
 	{
-		enteredWorlds.add(worldLocation);
+		enteredWorlds.add(world);
 	}
 	
 	/**
@@ -54,9 +56,9 @@ public class Tournament
 	 * @param player takes the player to have its points updated
 	 * @param points takes the new number of points to be stored
 	 */
-	public void addPoints(AntColour colour, int points)
+	public void addPoints(String player, int points)
 	{
-		if (colour == AntColour.Black)
+		if (player.equals("black"))
 		{
 			currentBlack.setPoints(points);
 		}
@@ -70,10 +72,10 @@ public class Tournament
 	 * The getNextWorld method returns the next world to play on and also puts it at the back of the arraylist in case needed again
 	 * @return nextWorld the next world to be played
 	 */
-	public String getNextWorld()
+	public WorldToken[][] getNextWorld()
 	{
 		// take first world (and return it) put it at the back in case world needs to be used again.
-		String nextWorld = enteredWorlds.get(0);
+		WorldToken[][] nextWorld = enteredWorlds.get(0);
 		enteredWorlds.remove(0);
 		enteredWorlds.add(nextWorld);
 		return nextWorld;
@@ -89,15 +91,6 @@ public class Tournament
 		return !(enteredWorlds.size() == 0);
 	}
 	
-	//Can probably be removed
-	private void swapSides()
-	{
-		Entry player1 = currentRed;
-		Entry player2 = currentBlack;
-		
-		currentRed = player2;
-		currentBlack = player1;
-	}
 	
 	/**
 	 * The nextConstestants method generates the next contestants to play.
@@ -140,6 +133,25 @@ public class Tournament
 				return contestants;
 			}
 		}
+	}
+	
+	/**
+	 * This method gets the brain location of a player
+	 * 
+	 * @param player the player to which the brain location will be returned for
+	 * @return brain location
+	 */
+	public String getBrain(String player)
+	{
+		for(Entry e : enteredBrains)
+		{
+			if (e.getPlayerName().equals(player))
+			{
+				return e.getBrainLocation();
+			}
+			
+		}
+		return null;
 	}
 	
 	/**

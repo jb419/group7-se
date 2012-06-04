@@ -110,7 +110,7 @@ public class Ant extends Actor
 			world.clearAntAt(position, this);
 			world.setAntAt(desiredPos, this); //This method updates the internal position var
 			combatCheck();
-			resting = 7; //TODO: is this number correct?
+			resting = 14;
 		}
 		else
 		{
@@ -340,7 +340,7 @@ public class Ant extends Actor
 	public boolean isSurrounded()
 	{
 		Ant[] adjacentAnts = world.adjacentAnts(position);
-		return adjacentAnts.length == 6; //TODO: is this number correct?
+		return adjacentAnts.length >= 5;
 	}
 	
 	/**

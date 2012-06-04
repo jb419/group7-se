@@ -10,12 +10,10 @@ import javax.swing.*;
 
 /**
  * The GUI class is created and updated by the Simulation class.
- * Because the example worlds in the client spec are 100 by 100 the 2D array is adjustable in the constructor for now. 
- * Obviously games in a tournament will be 150 by 150 but currently we do not have any worlds of that size.
- * The sizes must be a multiple of 10, otherwise the JLables will not be displayed correctly.
+
  * 
  * @author Brett Flitter
- * @version 25/05/2012 - 2
+ * @version 04/06/2012 - 3
  */
 public class GUI
 {
@@ -26,12 +24,11 @@ public class GUI
 	private JTextField worldLocationTextField;
 	private JFrame frame;
 	private JLabel[][] cells;
-	private int row;
-	private int col;
 	private String lastPlayerAdded;
 	private String lastWorldAdded;
 	private Simulation simulation; 
 	private int dimension;
+	private JPanel centerPanel;
 	
 	/**
 	 * Constructor
@@ -40,18 +37,6 @@ public class GUI
 	public GUI(Simulation simulation) 
 	{
 		this.simulation = simulation;
-		row = 150;
-		col = 150;  	
-		
-		if (row == 150)
-		{
-			dimension = 3018;
-		}
-		else
-		{
-			dimension = 2018;
-		}
-		cells = new JLabel[row][col];
 		lastPlayerAdded = "";
 		lastWorldAdded = "";
 
@@ -61,8 +46,6 @@ public class GUI
 	
 	/**
 	 * The build method creates everything you see! 
-	 * For testing purposes the JLabels used to display what's held in a cell are numbered 
-	 * from 1 to the size of variable 'row'. This shows that the JLabels are correctly aligned.
 	 * The Center Panel used to hold the JLabels does not currently have a hexagon grid as this seems a little difficult
 	 * to implement right now. Creating a grid that will adjust according to the size of the 2D array which holds the JLabels
 	 * seems a little tricky as the hexagons need to be connected. There is more important things to think about first!
@@ -133,28 +116,82 @@ public class GUI
 
 		//CENTER PANEL
 		//make center panel
-		JPanel centerPanel = new JPanel();
+		centerPanel = new JPanel();
+		
+	
+		// set overall frame size
+		frame.setSize(800,800);
+		frame.setPreferredSize(new Dimension(800, 800));
+		frame.setMinimumSize(new Dimension(800, 800));
+		frame.setMaximumSize(new Dimension(800, 800));
+		frame.setVisible(true);
+
+	}
+	
+	/**
+	 * Initialises the cells with the all world elements once the game is started.
+	 * Note this is different from updateCell()
+	 * 
+	 * @param currentWorld a world is provided to fill the cells with it's elements
+	 */
+	public void loadCells(WorldToken[][] currentWorld)
+	{
+		
 		centerPanel.setBackground(Color.WHITE);
 		centerPanel.setLayout(new FlowLayout(0,0,0));
+		
+		
+		// CREATE JLABELS TO DISPLAY CONTENTS OF CELLS
+		if (currentWorld.length == 150)
+		{
+			dimension = 3018;
+		}
+		else
+		{
+			// if using a 100 by 100 for testing
+			dimension = 2018;
+		}
+		cells = new JLabel[currentWorld.length][currentWorld.length];
+		
 		centerPanel.setPreferredSize(new Dimension(dimension, dimension));
 		centerPanel.setMinimumSize(new Dimension(dimension, dimension));
 		centerPanel.setMaximumSize(new Dimension(dimension, dimension));
 
-		// CREATE JLABELS TO DISPLAY CONTENTS OF CELLS
-		int num = 1;
+		
 		boolean firstRowIn = false;
 		int multiple = 0;
-		for(int i = 0; i < row; i++)
+		
+		for(int i = 0; i < currentWorld.length; i++)
 		{
-			for(int j = 0; j < col; j++)
+			for(int j = 0; j < currentWorld.length; j++)
 			{
-				// currently the JLabels display numbers so the programmer can see that the labels are aligned correctly.
-				JLabel cell = new JLabel("" + num, JLabel.CENTER);
+				String element ="";
+				if (currentWorld[i][j].getType() == WorldTokenType.BlackAntHill)
+				{
+					element = "+";
+				}
+				else if (currentWorld[i][j].getType() == WorldTokenType.RedAntHill)
+				{
+					element = "-";
+				}
+				else if (currentWorld[i][j].getType() == WorldTokenType.Food)
+				{
+					element = "5";
+				}
+				else if (currentWorld[i][j].getType() == WorldTokenType.Empty)
+				{
+					element = ".";
+				}
+				else
+				{
+					element = "#";
+				}
+				JLabel cell = new JLabel(element, JLabel.CENTER);
 				cell.setPreferredSize(new Dimension(20, 20));
-				cell.setBorder(BorderFactory.createLineBorder(Color.black));
+				
 				cells[i][j] = cell;
 				centerPanel.add(cells[i][j]);
-				if(i == 0 && j == col-1 && firstRowIn == false)
+				if(i == 0 && j == currentWorld.length-1 && firstRowIn == false)
 				{
 					// blank cells need to create the indentations to give the hexagon grid look
 					// the first row needs 2 blanks placed after the last label is placed
@@ -166,47 +203,49 @@ public class GUI
 				{
 					multiple++;
 					// blank cells are only needed after every other row (after the first row has been placed)
-					if (multiple % (row * 2) == 0)
+					if (multiple % (currentWorld.length * 2) == 0)
 					{
 						centerPanel.add(createBlankCell());
 						centerPanel.add(createBlankCell());
 					}
 				}
-				// will be taken out later! Used to print numbers for each cell
-				if(num == row)
-				{
-					num = 1;
-				}
-				else
-				{
-					num++;
-				}
+				
 			}
 		}
 		frame.getContentPane().add(BorderLayout.CENTER, centerPanel);
 		
 		//make scroll pane which holds the center panel and provides scroll bars
-		int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
-	    int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS; 
-	    JScrollPane jsp = new JScrollPane(centerPanel,v,h); 
-		frame.getContentPane().add(jsp);
-
-		// set overall frame size
-		frame.setSize(800,800);
-		frame.setPreferredSize(new Dimension(800, 800));
-		frame.setMinimumSize(new Dimension(800, 800));
-		frame.setMaximumSize(new Dimension(800, 800));
-		frame.setVisible(true);
-
+				int v = ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS;
+			    int h = ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS; 
+			    JScrollPane jsp = new JScrollPane(centerPanel,v,h); 
+				frame.getContentPane().add(jsp);
+		
+				// set overall frame size
+				frame.setSize(800,800);
+				frame.setPreferredSize(new Dimension(800, 800));
+				frame.setMinimumSize(new Dimension(800, 800));
+				frame.setMaximumSize(new Dimension(800, 800));
+				frame.setVisible(true);
 	}
 	
+	/**
+	 * Update cell
+	 * 
+	 * @param row the row of the 2D array of JLabels
+	 * @param col the col of the 2D array of JLabels
+	 * @param value the value to be placed in cell
+	 */
+	public void updateCell(int row, int col, String value)
+	{
+		cells[row][col].setText(value);
+	}
 	
 	private JLabel createBlankCell()
 	{
 		// creates a blank cell
 		JLabel blankCell = new JLabel(" ", JLabel.CENTER);
 		blankCell.setPreferredSize(new Dimension(10, 20));
-		blankCell.setBorder(BorderFactory.createLineBorder(Color.black));
+		
 		return blankCell;
 		
 	}
@@ -215,37 +254,53 @@ public class GUI
 	 * The updateScore() will be used by the Simulator class to update the player's score
 	 * 
 	 * @param antColour the colour of player to update
+	 * @param players name
 	 * @param value the score to be updated
 	 */
-	public void updateScore(String antColour, String value)
+	public void updateScore(String antColour, String name, String value)
 	{
 		if (antColour.equals("black"))
 		{
-			blackScoreLabel.setText(value);
+			blackScoreLabel.setText("" + name + " score: " + value);
 		}
 		else 
 		{
-			redScoreLabel.setText(value);
+			redScoreLabel.setText("" + name + " score: " + value);
 		}
 			
 	}
 	
 	/**
-	 * The incorrectNameOrBrain() method is called when there has been an incorrect name or brain entered syntactically 
+	 * Out put a warning message when there is an error
+	 * 
+	 * @param message the message which details what error was caused.
 	 */
-	public void incorrectNameOrBrain()
+	public void outPutError(String message)
 	{
-		playerNameTextField.setText(lastPlayerAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-		JOptionPane.showMessageDialog(frame, "Player text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+		if (message.equals("brain"))
+		{
+			playerNameTextField.setText(lastPlayerAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
+			JOptionPane.showMessageDialog(frame, "Player text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+		}
+		else if (message.equals("world"))
+		{
+			worldLocationTextField.setText(lastWorldAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
+			JOptionPane.showMessageDialog(frame, "World text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			JOptionPane.showMessageDialog(frame, message, "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	/**
-	 * The incorrectWorld() method is called when there has been an incorrect world entered syntactically 
+	 * Out puts the winner as message Dialog
+	 * 
+	 * @param victor the winner of the tournament
 	 */
-	public void incorrectWorld()
+	public void showVictor(String victor)
 	{
-		worldLocationTextField.setText(lastWorldAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-		JOptionPane.showMessageDialog(frame, "World text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+		JOptionPane.showMessageDialog(frame, "The winner is " + victor, "Winner", JOptionPane.PLAIN_MESSAGE);
 	}
 	
 	
@@ -258,11 +313,11 @@ public class GUI
 		public void actionPerformed(ActionEvent event)
 		{
 			// set text fields so to un-editable
-			playerNameTextField.setEditable(false); //
+			playerNameTextField.setEditable(false); 
 			worldLocationTextField.setEditable(false);
 			
-				// WAKEY WAKEY SIMULATOR TIME TO START
-			
+			// WAKEY WAKEY SIMULATOR TIME TO START
+			simulation.run();
 		}
 	}
 	

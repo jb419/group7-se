@@ -7,19 +7,19 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 2
+ * @version 04/06/2012 - 3
  */
 public class Simulation
 {
 	private Tournament tournament;
-	//private World world;
-	private Boolean sidesSwapped; //Not used, should maybe be removed?
 	private int numTick;
 	private int foodRed;
 	private int foodBlack;
 	private GUI gui;
-	private Boolean isError; //Not sure where this would be used
+	private WorldLoader worldLoader;
 
+
+	
 	/**
 	 * Constructor
 	 */
@@ -28,10 +28,11 @@ public class Simulation
 
 		gui = new GUI(this);
 		tournament = new Tournament();
-		sidesSwapped = false;
-		int foodRed = 0;
-		int foodBlack = 0;
-		int numTick = 0;
+		foodRed = 0;
+		foodBlack = 0;
+		numTick = 0;
+		worldLoader = new WorldLoader();
+		
 	}
 	
 	/**
@@ -48,18 +49,20 @@ public class Simulation
 			String[] players = tournament.nextContestants();
 			String redPlayer = players[0];
 			String blackPlayer = players[1];
-			gui.setRedPlayerName(redPlayer); //TODO: Add setRedPlayer/BlackPlayer methods to GUI, these methods should update the player name displays (check on LLD if method should already exist)
-			gui.setBlackPlayerName(blackPlayer);
+			gui.updateScore("red", redPlayer, "0"); 
+			gui.updateScore("black", blackPlayer, "0");
 			
-			//TODO: Get red brain and black brain
-			String blackBrain = /*code here*/"";
-			String redBrain = /*code here*/"";
+			
+			String blackBrain = tournament.getBrain(blackPlayer);
+			String redBrain = tournament.getBrain(redPlayer);
 			
 			//get the next world
-			String nextWorld = null;
+			WorldToken[][] nextWorld = null;
 			if(tournament.hasWorld())
 			{
 				nextWorld = tournament.getNextWorld();
+				//load world into cells
+				gui.loadCells(nextWorld);
 			}
 			
 			//create the new world for these players
@@ -79,8 +82,8 @@ public class Simulation
 				String redScore = "" + foodRed;
 				String blackScore = "" + foodBlack;
 				
-				gui.updateScore("red", redScore);
-				gui.updateScore("black", blackScore);
+				gui.updateScore("red", redPlayer, redScore);
+				gui.updateScore("black", blackPlayer, blackScore);
 				
 				String[][] grid = World.getWorld().toStrings();
 				for(int r = 0; r < grid.length; r++)
@@ -88,7 +91,7 @@ public class Simulation
 					for(int c = 0; c < grid.length; c++)
 					{
 						String tileValue = grid[r][c];
-						gui.updateLabel(r, c, tileValue);//TODO: add updateLabel to GUI the label should be set to a given string (check LLD for better named method)					
+						gui.updateCell(r, c, tileValue);					
 					}
 				}
 			}
@@ -96,7 +99,7 @@ public class Simulation
 			//Aftermath of round 1
 			if(foodRed > foodBlack)
 			{
-				tournament.addPoints(AntColour.Red, 1);
+				tournament.addPoints(AntColour.Red, 1);  // addpoints() is implemented in tournament according to the LLD. Should this be the players name?
 			}
 			else
 			{
@@ -117,8 +120,8 @@ public class Simulation
 				String redScore = "" + foodRed;
 				String blackScore = "" + foodBlack;
 				
-				gui.updateScore("red", redScore);
-				gui.updateScore("black", blackScore);
+				gui.updateScore("red", redPlayer, redScore);
+				gui.updateScore("black", blackPlayer, blackScore);
 				
 				String[][] grid = World.getWorld().toStrings();
 				for(int r = 0; r < grid.length; r++)
@@ -126,7 +129,7 @@ public class Simulation
 					for(int c = 0; c < grid.length; c++)
 					{
 						String tileValue = grid[r][c];
-						gui.updateLabel(r, c, tileValue);						
+						gui.updateCell(r, c, tileValue);						
 					}
 				}
 			}
@@ -143,10 +146,10 @@ public class Simulation
 		}
 		
 		String victor = tournament.getVictor(); 
-		gui.showVictor(victor); //TODO: add showVictor to GUI, should display victor's name in a popup or something, check on LLD if method should be named differently
-		//TODO: add code to display victor in GUI.
+		gui.showVictor(victor); 
 	}
-
+	
+	
 	/**
 	 * The addPlayerAndBrain method is used to add the players along with their brain location.
 	 * It takes a string and uses a regular expression to divide the player's name from its brain location.
@@ -189,12 +192,12 @@ public class Simulation
 		}
 		else
 		{
-			gui.incorrectNameOrBrain();
+			gui.outPutError("brain");
 
 		}
-
+		
 	}
-
+	
 	/**
 	 * The addWorldLocaions method is used to add the word 
 	 * locations.
@@ -202,47 +205,32 @@ public class Simulation
 	 */
 	public void addWorldLocation(String worldLocation)
 	{
-		Pattern p = Pattern.compile("([a-zA-Z]:.*\\.txt)");
-
-		Matcher m = p.matcher(worldLocation);
-		if (m.find())
-		{	
-			boolean goodWorld = true;
-			String worldLoc = m.group(1);
-			File f = new File(worldLoc);
-			//Checking that the file exists and is reachable
-			if(!f.canRead())
-			{
-				goodWorld = false;
+		Pattern p = Pattern.compile("([a-zA-Z]:.*\\.world)");
+		
+			Matcher m = p.matcher(worldLocation);
+			if (m.find())
+			{	
+				WorldToken[][] world = worldLoader.loadWorld(m.group(1));  // LLD says World creates worldLoader.. what do you think, leave it like this?
+				if (world != null)
+				{
+					tournament.addWorld(world);
+				}
+				else
+				{
+					gui.outPutError(worldLoader.isError());
+				}
 			}
-			//TODO: add use of WorldLoader here to check if world is properly formed
-			if(goodWorld)
+			else 
 			{
-				tournament.addWorld(worldLoc);
+				gui.outPutError("world");
 			}
-		}
-		else 
-		{
-			gui.incorrectWorld();
-		}
-
+		
 	}
-
-
-	//These can be removed, are currently being dealt with in the adding methods.
-	//private boolean findBrain()
-	//{
-	//	if brain is ok then return true
-	//}
-
-	//priave boolean findWorld()
-	//{ 
-	// if world is ok then return true
-	//}
-
+	
+	
 	public static void main(String args[])
 	{
 		new Simulation();
 	}
-
+	
 }
