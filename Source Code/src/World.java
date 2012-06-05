@@ -52,7 +52,7 @@ public class World
 			blackI = new AntBrainInterpreter(brainLocBlack);
 			worldInitial = world;
 			cells = new Cell[WORLD_SIZE][WORLD_SIZE];
-
+			// HILLS NEEDS TO BE INTIALISED!!!
 			
 		}
 		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
