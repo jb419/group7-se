@@ -178,10 +178,7 @@ public class Simulation
 			{
 				goodBrain = false;
 			}
-			else
-			{
-				gui.outPutError("File not found!");
-			}
+			
 
 			//Checking that the brain is syntactically correct
 			try
