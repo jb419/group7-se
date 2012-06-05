@@ -161,12 +161,12 @@ public class Simulation
 	 */
 	public void addPlayerAndBrain(String playerAndBrain)
 	{
-		Pattern p = Pattern.compile("([a-zA-Z0-9]+);([a-zA-Z]:.+\\.txt)");
+		Pattern p = Pattern.compile("([a-zA-Z0-9]+);([a-zA-Z]:.*\\.ant)");
 
 		Matcher m = p.matcher(playerAndBrain);
 		if (m.find())
 		{
-			String brainLoc = m.group(0);
+			String brainLoc = m.group(2);
 			boolean goodBrain = true;
 			File f = new File(brainLoc);
 
