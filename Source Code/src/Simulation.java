@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 4
+ * @version 04/06/2012 - 5
  */
 public class Simulation
 {
@@ -17,6 +17,8 @@ public class Simulation
 	private int foodBlack;
 	private GUI gui;
 	private WorldLoader worldLoader;
+	private int numOfPlayers;
+	private int numOfWorlds;
 
 
 	
@@ -159,12 +161,12 @@ public class Simulation
 	 */
 	public void addPlayerAndBrain(String playerAndBrain)
 	{
-		Pattern p = Pattern.compile("([a-zA-Z0-9]+);([a-zA-Z]:.+\\.txt)");
+		Pattern p = Pattern.compile("([a-zA-Z0-9]+);([a-zA-Z]:.*\\.ant)");
 
 		Matcher m = p.matcher(playerAndBrain);
 		if (m.find())
 		{
-			String brainLoc = m.group(0);
+			String brainLoc = m.group(2);
 			boolean goodBrain = true;
 			File f = new File(brainLoc);
 
@@ -172,6 +174,10 @@ public class Simulation
 			if(!f.canRead())
 			{
 				goodBrain = false;
+			}
+			else
+			{
+				gui.outPutError("File not found!");
 			}
 
 			//Checking that the brain is syntactically correct
@@ -188,6 +194,11 @@ public class Simulation
 			if (goodBrain)
 			{
 				tournament.addPlayer(m.group(1), m.group(2));
+				numOfPlayers++;
+			}
+			else
+			{
+				gui.outPutError("Brain not syntactically correct!");
 			}
 		}
 		else
@@ -214,6 +225,7 @@ public class Simulation
 				if (world != null)
 				{
 					tournament.addWorld(world);
+					numOfWorlds++;
 				}
 				else
 				{
@@ -225,6 +237,15 @@ public class Simulation
 				gui.outPutError("world");
 			}
 		
+	}
+	
+	/**
+	 * Get the number of players
+	 * @return number of players
+	 */
+	public int getNumOfPlayers()
+	{
+		return numOfPlayers;
 	}
 	
 	

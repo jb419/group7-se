@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
+
 import javax.swing.*;
 
 /**
@@ -13,7 +15,7 @@ import javax.swing.*;
 
  * 
  * @author Brett Flitter
- * @version 04/06/2012 - 3
+ * @version 05/06/2012 - 4
  */
 public class GUI
 {
@@ -24,8 +26,8 @@ public class GUI
 	private JTextField worldLocationTextField;
 	private JFrame frame;
 	private JLabel[][] cells;
-	private String lastPlayerAdded;
-	private String lastWorldAdded;
+	private ArrayList<String> playersAdded;
+	private ArrayList<String> worldsAdded;
 	private Simulation simulation; 
 	private int dimension;
 	private JPanel centerPanel;
@@ -37,8 +39,8 @@ public class GUI
 	public GUI(Simulation simulation) 
 	{
 		this.simulation = simulation;
-		lastPlayerAdded = "";
-		lastWorldAdded = "";
+		playersAdded = new ArrayList<String>();
+		worldsAdded = new ArrayList<String>();
 
 		build();
 	}
@@ -279,13 +281,13 @@ public class GUI
 	{
 		if (message.equals("brain"))
 		{
-			playerNameTextField.setText(lastPlayerAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-			JOptionPane.showMessageDialog(frame, "Player text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+			//playerNameTextField.setText(lastPlayerAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
+			JOptionPane.showMessageDialog(frame, "Player text field input is not correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
 		}
 		else if (message.equals("world"))
 		{
-			worldLocationTextField.setText(lastWorldAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-			JOptionPane.showMessageDialog(frame, "World text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+			//worldLocationTextField.setText(lastWorldAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
+			JOptionPane.showMessageDialog(frame, "World text field input is not correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{
@@ -312,12 +314,20 @@ public class GUI
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			// set text fields so to un-editable
-			playerNameTextField.setEditable(false); 
-			worldLocationTextField.setEditable(false);
+			if(simulation.getNumOfPlayers()>= 2)
+			{
+				// set text fields so to un-editable
+				playerNameTextField.setEditable(false); 
+				worldLocationTextField.setEditable(false);
 			
-			// WAKEY WAKEY SIMULATOR TIME TO START
-			simulation.run();
+				// WAKEY WAKEY SIMULATOR TIME TO START
+			
+				simulation.run();
+			}
+			else
+			{
+				outPutError("Not enough players!");
+			}
 		}
 	}
 	
@@ -331,16 +341,16 @@ public class GUI
 		public void actionPerformed(ActionEvent event)
 		{
 			// make sure text field is not empty or previous text remains before adding
-			if (!playerNameTextField.getText().equals("") && !playerNameTextField.getText().equals(lastPlayerAdded))
+			if (!playerNameTextField.getText().equals("") && !playersAdded.contains(playerNameTextField.getText()) && !playerNameTextField.getText().contains("Enter"))
 			{
-				lastPlayerAdded = playerNameTextField.getText();
+				playersAdded.add(playerNameTextField.getText());
 				simulation.addPlayerAndBrain(playerNameTextField.getText());
 				playerNameTextField.setText("");
 			}
 			// make sure text field is not empty or previous text remains before adding
-			if  (!worldLocationTextField.getText().equals("")  && !worldLocationTextField.getText().equals(lastWorldAdded))
+			if  (!worldLocationTextField.getText().equals("")  && !worldsAdded.contains(worldLocationTextField.getText())  && !worldLocationTextField.getText().contains("Enter"))
 			{
-				lastWorldAdded = worldLocationTextField.getText();
+				worldsAdded.add(worldLocationTextField.getText());
 				simulation.addWorldLocation(worldLocationTextField.getText());
 				worldLocationTextField.setText("");
 			}
