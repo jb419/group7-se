@@ -264,10 +264,12 @@ public class GUI
 		if (antColour.equals("black"))
 		{
 			blackScoreLabel.setText("" + name + " score: " + value);
+			
 		}
 		else 
 		{
 			redScoreLabel.setText("" + name + " score: " + value);
+			
 		}
 			
 	}

@@ -88,7 +88,7 @@ public class Tournament
 	 */
 	public boolean hasWorld()
 	{
-		return !(enteredWorlds.size() == 0);
+		return enteredWorlds.size() != 0;
 	}
 	
 	
@@ -111,8 +111,8 @@ public class Tournament
 		}
 		if (blackInt != enteredBrains.size())
 		{
-			contestants[0] = enteredBrains.get(blackInt-1).getPlayerName();
-			contestants[1] = enteredBrains.get(redInt-1).getPlayerName();
+			contestants[0] = enteredBrains.get(blackInt).getPlayerName();
+			contestants[1] = enteredBrains.get(redInt).getPlayerName();
 			return contestants;
 		}
 		else
@@ -191,7 +191,7 @@ public class Tournament
 				sortedScores.clear(); // empty any previous entries, new highest score
 				sortedScores.add(enteredBrains.get(i));
 			}
-			else if (enteredBrains.get(i).getPoints() == sortedScores.get(i).getPoints())
+			else if (enteredBrains.get(i).getPoints() == sortedScores.get(0).getPoints())
 			{
 				//score is equal to a score already found in sortedScores
 				sortedScores.add(enteredBrains.get(i));
