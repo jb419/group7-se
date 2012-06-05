@@ -1,3 +1,4 @@
+import java.math.BigInteger;
 import java.util.ArrayList;
 
 
@@ -6,7 +7,7 @@ import java.util.ArrayList;
  * and what to do.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 5
+ * @version 05/06/1012 - 8
  */
 //Will not work until ant is completed.
 public class AntBrain
@@ -14,11 +15,11 @@ public class AntBrain
 	private State[] states;
 	private int currentState;
 	private Ant ant;
-	long seed;
+	BigInteger seed;
 	
 	public AntBrain(ArrayList<State> states, Ant a)
 	{
-		seed = 12345;//random initial seed
+		seed = BigInteger.valueOf(12345);//random initial seed
 		for(int i = 0; i < 4; i++) //Go to s(4)
 		{
 			iterateSeed();
@@ -38,7 +39,8 @@ public class AntBrain
 	 */
 	private void iterateSeed()
 	{
-		seed = Math.abs((seed * 22695477) + 1); //NEED abs, seed wraps into negative after first few iterations otherwise
+		seed = seed.multiply(BigInteger.valueOf(22695477));
+		seed = seed.add(BigInteger.valueOf(1));
 	}
 	
 	/**
@@ -145,12 +147,13 @@ public class AntBrain
 	public boolean flip(int probability)
 	{
 		//Using the customer's random int generator formula
-		long xVal = (seed / 65536) % 16384;
-		long result = xVal % probability;
+		BigInteger x = seed.divide(BigInteger.valueOf(65536));
+		x = x.mod(BigInteger.valueOf(16384));
+		BigInteger result = x.mod(BigInteger.valueOf(probability));
 		iterateSeed();
-		//System.out.println("x" + xVal);
+		System.out.println("x" + x);
 		boolean b;
-		if(result == 0)
+		if(result.compareTo(BigInteger.valueOf(0)) == 0)
 		{
 			b = true;
 		}
@@ -264,7 +267,7 @@ public class AntBrain
 		return c;
 	}
 	
-	/*public static void main(String args[])
+	public static void main(String args[])
 	{
 		ArrayList<State> al = new ArrayList<State>();
 		AntBrain a = new AntBrain(al, null);
@@ -272,5 +275,5 @@ public class AntBrain
 		{
 			a.flip(16384);
 		}
-	}*/
+	}
 }
