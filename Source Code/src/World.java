@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 05/06/1012 - 6
+ * @version 05/06/1012 - 7
  */
 public class World
 {
@@ -56,11 +56,11 @@ public class World
 		{
 			System.err.println(e);
 		}
-		if(worldInitial == null)
+		/*if(worldInitial == null)
 		{
-			WorldGenerator g = new WorldGenerator()
+			WorldGenerator g = new WorldGenerator();
 			worldInitial = g.getTokens();
-		}
+		}*/
 		ants = new Ant[182];
 		
 		for(int row = 0; row < WORLD_SIZE; row++)

@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 5
+ * @version 05/06/1012 - 7
  */
 public class Cell
 {
@@ -208,7 +208,7 @@ public class Cell
 			{
 				i++;
 			}
-			b = i < contains.size; //True if food has been found, false if i has reached the end of the contains list
+			b = i < contains.size(); //True if food has been found, false if i has reached the end of the contains list
 		}
 		//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
 		else if(c == Condition.RedMarker)
