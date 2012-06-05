@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 05/06/1012 - 7
+ * @version 05/06/1012 - 13
  */
 public class World
 {
@@ -52,8 +52,7 @@ public class World
 			blackI = new AntBrainInterpreter(brainLocBlack);
 			worldInitial = world;
 			cells = new Cell[WORLD_SIZE][WORLD_SIZE];
-
-			
+			hills = new Cell[2][91];
 		}
 		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
 		{
