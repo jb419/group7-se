@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 5
+ * @version 05/06/1012 - 14
  */
 public class AntBrainInterpreter
 {
@@ -371,15 +371,15 @@ public class AntBrainInterpreter
 		}
 	}
 	
-	/*public static void main(String args[])
+	public static void main(String args[])
 	{
 		try
 		{
-		AntBrainInterpreter a = new AntBrainInterpreter("testbrain.txt");
+			AntBrainInterpreter a = new AntBrainInterpreter("C:\\Users\\Owen\\ant.ant");
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 		}
-	}*/
+	}
 }

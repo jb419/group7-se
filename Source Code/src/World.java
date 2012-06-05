@@ -1,9 +1,11 @@
+import java.util.ArrayList;
+
 /**
  * A World is a singleton object that stores a set of cells and has methods
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 05/06/2012 - 13
+ * @version 05/06/1012 - 14
  */
 public class World
 {
@@ -44,6 +46,11 @@ public class World
 	private AntBrainInterpreter redI;
 	private AntBrainInterpreter blackI;
 	
+	//Pointers for use in the arrays
+	private int numRedHills;
+	private int numBlackHills;
+	private int numAnts;
+	
 	private World(String brainLocRed, String brainLocBlack, WorldToken[][] world)
 	{
 		try
@@ -52,7 +59,6 @@ public class World
 			blackI = new AntBrainInterpreter(brainLocBlack);
 			worldInitial = world;
 			cells = new Cell[WORLD_SIZE][WORLD_SIZE];
-			hills = new Cell[2][91];
 		}
 		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
 		{
@@ -63,7 +69,11 @@ public class World
 			WorldGenerator g = new WorldGenerator();
 			worldInitial = g.getTokens();
 		}*/
-		ants = new Ant[182];
+		ants = new Ant[254];
+		numAnts = 0;
+		hills = new Cell[2][127];
+		numRedHills = 0;
+		numBlackHills = 0;
 		
 		for(int row = 0; row < WORLD_SIZE; row++)
 		{
@@ -99,7 +109,11 @@ public class World
 	
 	public void swapSides()
 	{
-		ants = new Ant[182];
+		hills = new Cell[2][127];
+		numRedHills = 0;
+		numBlackHills = 0;
+		ants = new Ant[254];
+		numAnts = 0;
 		for(int row = 0; row < WORLD_SIZE; row++)
 		{
 			for(int col = 0; col < WORLD_SIZE; col++)
@@ -116,10 +130,12 @@ public class World
 						break;
 						
 					case RedAntHill:
+						System.out.println("RedAntHill " + hills[0].length + " at " + row + "," + col);
 						addAntHill(AntColour.Black, c);
 						break;
 						
 					case BlackAntHill:
+						System.out.println("BlackAntHill " + hills[1].length + " at " + row + "," + col);
 						addAntHill(AntColour.Red, c);
 						break;
 						
@@ -141,12 +157,20 @@ public class World
 	private void addAntHill(AntColour c, Cell cell)
 	{
 		int side = 0;
+		int pointer;
 		if(c == AntColour.Red)
 		{
 			side = 1;
+			pointer = numRedHills;
+			numRedHills ++;
+		}
+		else
+		{
+			pointer = numBlackHills;
+			numBlackHills ++;
 		}
 		cell.addAntHill(c);
-		hills[side][hills[side].length] = cell; //add the cell to the end of the array
+		hills[side][pointer] = cell; //add the cell to the end of the array
 	}
 	
 	/**
@@ -187,17 +211,25 @@ public class World
 				{
 					Ant a = new Ant(this, AntColour.Black); //Creates a new ant
 					a.setAntBrain(new AntBrain(blackI.getStates(), a));
-					cells[i][j].addAnt(a); //add the created ant to the cell
+					
 					int[] pos = {i, j};
 					a.setPos(pos); //Set the ants position to be correct
-					ants[ants.length] = a; //Sets the next free element of ants to be = to the created ant
+					
+					cells[i][j].addAnt(a); //add the created ant to the cell
+					ants[numAnts] = a; //Sets the next free element of ants to be = to the created ant
+					numAnts ++;
 				}
 				else if(cells[i][j].checkCondition(Condition.RedHill))
 				{
 					Ant a = new Ant(this, AntColour.Red);
 					a.setAntBrain(new AntBrain(redI.getStates(), a));
+					
+					int[] pos = {i, j};
+					a.setPos(pos); //Set the ants position to be correct
+					
 					cells[i][j].addAnt(a);
-					ants[ants.length] = a;
+					ants[numAnts] = a;
+					numAnts ++;
 				}
 			}
 		}
@@ -362,12 +394,9 @@ public class World
 	 */
 	public void update()
 	{
-		for(Ant ant : ants)
+		for(int i = 0; i < ants.length; i++)
 		{
-			if(ant.isAlive())
-			{
-				ant.step();
-			}
+			ants[i].step();
 		}
 	}
 	
@@ -451,7 +480,7 @@ public class World
 	 */
 	public Ant[] adjacentAnts(int[] pos, AntColour colour)
 	{
-		Ant[] adjAnts = new Ant[6];
+		ArrayList<Ant> adjacentAnts = new ArrayList<Ant>();
 		for(Direction d: Direction.values())
 		{
 			int[] adjPos = adjacentCell(pos, d);
@@ -460,10 +489,12 @@ public class World
 				Ant a = getAntAt(adjPos);
 				if(a.getColour()== colour)
 				{
-					adjAnts[adjAnts.length] = a;
+					adjacentAnts.add(a);
 				}
 			}
 		}
+		Ant[] adjAnts = new Ant[0];
+		adjAnts = adjacentAnts.toArray(adjAnts);
 		return adjAnts;
 	}
 	

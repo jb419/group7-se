@@ -79,6 +79,15 @@ public class Simulation
 			//round 1
 			for(numTick = 0; numTick < roundLength; numTick++)
 			{
+				try//Adding a small delay to better appreciate the action
+				{
+					Thread.sleep(100L);
+				}
+				catch(InterruptedException e)
+				{
+					System.err.println("Interrupted, exiting...");
+					System.exit(0);
+				}
 				World.getWorld().update();
 				foodRed = World.getWorld().calculateScore(AntColour.Red);
 				foodBlack = World.getWorld().calculateScore(AntColour.Black);
@@ -117,6 +126,15 @@ public class Simulation
 			//round 2
 			for(numTick = 0; numTick < roundLength; numTick++) 
 			{
+				try //Adding a small delay to better appreciate the action
+				{
+					Thread.sleep(100L);
+				}
+				catch(InterruptedException e)
+				{
+					System.err.println("Interrupted, exiting...");
+					System.exit(0);
+				}
 				World.getWorld().update();
 				foodRed = World.getWorld().calculateScore(AntColour.Red);
 				foodBlack = World.getWorld().calculateScore(AntColour.Black);

@@ -1,15 +1,15 @@
 
 /**
- * 
+ * A Rock object represents a Rock stored in a cell
  * 
  * @author Owen Cox
- * @version 23/05/2012 - 1
+ * @version 05/06/1012 - 14
  */
 public class Rock extends Actor
 {
 	public Rock()
 	{
-		setStringVal("O");
+		setStringVal("#");
 	}
 	
 	/**

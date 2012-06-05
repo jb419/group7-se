@@ -8,8 +8,8 @@ import java.util.regex.Pattern;
 /**
  * Loads a world from file and creates a 2D array of WorldTokens ready to be checked
  * 
- * @author Brett Flitter
- * @version 01/06/2012 - 3
+ * @author Brett Flitter, Owen Cox
+ * @version 05/06/1012 - 14
  */
 public class WorldLoader {
 
@@ -176,12 +176,14 @@ public class WorldLoader {
 	
 	private boolean isMinus(int ch)
 	{
-		return ch == 45;
+		char c = (char)ch;
+		return c == '-';
 	}
 	
 	private boolean isPlus(int ch)
 	{
-		return ch == 43;
+		char c = (char)ch;
+		return c == '+';
 	}
 	
 	private boolean isWhiteSpace(int ch)
@@ -191,7 +193,8 @@ public class WorldLoader {
 	
 	private boolean isFullStop(int ch)
 	{
-		return ch == 46;
+		char c = (char)ch;
+		return c == '.';
 	}
 	
 	/**
@@ -211,6 +214,12 @@ public class WorldLoader {
 	{
 		return worldLength;
 	}
-
+	
+	public static void main(String args[])
+	{
+		WorldLoader wl = new WorldLoader();
+		wl.loadWorld("C:\\Users\\Owen\\world.world");
+		System.out.println(wl.currentWorld);
+	}
 
 }

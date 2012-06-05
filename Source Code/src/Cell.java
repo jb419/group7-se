@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 7
+ * @version 05/06/1012 - 14
  */
 public class Cell
 {
@@ -72,7 +72,7 @@ public class Cell
 	{
 		contains.add(new Rock());
 	}
-	
+
 	//////////////////////////////////////////
 	//Methods to remove actors from the cell//
 	//////////////////////////////////////////
@@ -85,7 +85,7 @@ public class Cell
 	{
 		contains.remove(a); //This uses == equality which is ideal for this purpose
 	}
-	
+
 	/**
 	 * Removes a food pellet from the cell
 	 *
@@ -98,17 +98,17 @@ public class Cell
 			i++;
 		}
 		//Loop will exit when either i reaches the end of the arrayList or food is found
-		
+
 		if(i < contains.size()) //Then food has been found in the list
 		{
 			contains.remove(i);
 		}
 	}
-	
+
 	//There is no need for removeRock and removeAntHill methods here so they were removed. Once a rock or anthill has been placed it should never be removed
-	
+
 	//Methods dealing with checking the contents or properties of the cell
-	
+
 	/**
 	 * The checkCondition method checks to see if the cell fulfills a given condition
 	 *
@@ -119,117 +119,125 @@ public class Cell
 	{
 		boolean b = false;
 		int i = 0;
-		Actor a = contains.get(i);
-		
-		/////////////////////////////Checking for conditions related to ants/////////////////////////////
-		if(c == Condition.BlackAnt || c == Condition.RedAnt|| c == Condition.BlackAntWithFood || c == Condition.RedAntWithFood)
+
+		if(contains.size() > 0)
 		{
-			while((!a.isAnt(AntColour.Red) && !a.isAnt(AntColour.Black)) && i < contains.size())
+			Actor a = contains.get(i);
+
+			/////////////////////////////Checking for conditions related to ants/////////////////////////////
+			if(c == Condition.BlackAnt || c == Condition.RedAnt|| c == Condition.BlackAntWithFood || c == Condition.RedAntWithFood)
 			{
-				i ++;
-			}
-			if(i < contains.size())
-			{
-				a = contains.get(i);
-				switch(c)
+				while((!a.isAnt(AntColour.Red) && !a.isAnt(AntColour.Black)) && i < contains.size())
 				{
-					case BlackAnt:
-						b = a.isAnt(AntColour.Black); //Check if it an ant of the correct colour
-						break;
-					case RedAnt:
-						b = a.isAnt(AntColour.Red);
-						break;
-					case BlackAntWithFood:
-						if(a.isAnt(AntColour.Black)) //Need to check if the ant is the correct colour before checking if it has food
-						{
-							Ant ant = (Ant)a;
-							b = ant.hasFood();
-						}
-						else
-						{
-							b = false;
-						}
-						break;
-					case RedAntWithFood:
-						if(a.isAnt(AntColour.Red))
-						{
-							Ant ant = (Ant)a;
-							b = ant.hasFood();
-						}
-						else
-						{
-							b = false;
-						}
-						break;
+					i ++;
+				}
+				if(i < contains.size())
+				{
+					a = contains.get(i);
+					switch(c)
+					{
+						case BlackAnt:
+							b = a.isAnt(AntColour.Black); //Check if it an ant of the correct colour
+							break;
+						case RedAnt:
+							b = a.isAnt(AntColour.Red);
+							break;
+						case BlackAntWithFood:
+							if(a.isAnt(AntColour.Black)) //Need to check if the ant is the correct colour before checking if it has food
+							{
+								Ant ant = (Ant)a;
+								b = ant.hasFood();
+							}
+							else
+							{
+								b = false;
+							}
+							break;
+						case RedAntWithFood:
+							if(a.isAnt(AntColour.Red))
+							{
+								Ant ant = (Ant)a;
+								b = ant.hasFood();
+							}
+							else
+							{
+								b = false;
+							}
+							break;
+					}
+				}
+				else
+				{
+					b = false;
 				}
 			}
-			else
+			/////////////////////////////Dealing with conditions related to the ant hills./////////////////////////////
+			else if(c == Condition.RedHill || c == Condition.BlackHill)
 			{
-				b = false;
-			}
-		}
-		/////////////////////////////Dealing with conditions related to the ant hills./////////////////////////////
-		else if(c == Condition.RedHill || c == Condition.BlackHill)
-		{
-			while((!a.isAntHill(AntColour.Red) && !a.isAntHill(AntColour.Black)) && i < contains.size())
-			{
-				i ++;
-			}
-			if(i < contains.size())
-			{
-				a = contains.get(i);
-				switch(c)
+				while((!a.isAntHill(AntColour.Red) && !a.isAntHill(AntColour.Black)) && i < contains.size())
 				{
-					case RedHill:
-						b = a.isAntHill(AntColour.Red);
-						break;
-					case BlackHill:
-						b = a.isAntHill(AntColour.Black);
-						break;
+					i ++;
+				}
+				if(i < contains.size())
+				{
+					a = contains.get(i);
+					switch(c)
+					{
+						case RedHill:
+							b = a.isAntHill(AntColour.Red);
+							break;
+						case BlackHill:
+							b = a.isAntHill(AntColour.Black);
+							break;
+					}
+				}
+				else
+				{
+					b = false;
 				}
 			}
-			else
+			/////////////////////////////Dealing with other conditions/////////////////////////////
+			else if(c == Condition.Rock)
 			{
-				b = false;
-			}
-		}
-		/////////////////////////////Dealing with other conditions/////////////////////////////
-		else if(c == Condition.Rock)
-		{
-			while(!a.isRocky() && i < contains.size())
-			{
-				i++;
-			}
-			b = i < contains.size(); //True is a rock has been found, false if i has reached the end of the contains list, these are the only reasons the loop will terminate
-		}
-		else if(c == Condition.Food)
-		{
-			while(!a.isFood() && i < contains.size())
-			{
-				i++;
-			}
-			b = i < contains.size(); //True if food has been found, false if i has reached the end of the contains list
-		}
-		//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
-		else if(c == Condition.RedMarker)
-		{
-			for(int j = 0; j < redMarkers.length; j++)
-			{
-				if(redMarkers[j])
+				while(!a.isRocky() && i < contains.size())
 				{
-					b = true;
+					i++;
+				}
+				b = i < contains.size(); //True is a rock has been found, false if i has reached the end of the contains list, these are the only reasons the loop will terminate
+			}
+			else if(c == Condition.Food)
+			{
+				while(!a.isFood() && i < contains.size())
+				{
+					i++;
+				}
+				b = i < contains.size(); //True if food has been found, false if i has reached the end of the contains list
+			}
+			//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
+			else if(c == Condition.RedMarker)
+			{
+				for(int j = 0; j < redMarkers.length; j++)
+				{
+					if(redMarkers[j])
+					{
+						b = true;
+					}
+				}
+			}
+			else if(c == Condition.BlackMarker)
+			{
+				for(int j = 0; j < blackMarkers.length; j++)
+				{
+					if(blackMarkers[j])
+					{
+						b = true;
+					}
 				}
 			}
 		}
-		else if(c == Condition.BlackMarker)
+		else
 		{
-			for(int j = 0; j < blackMarkers.length; j++)
-			{
-				if(blackMarkers[j])
-				{
-					b = true;
-				}
-			}
+			b = false;
 		}
 		return b;
 	}
@@ -247,10 +255,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				b = blackMarkers[markerType - 1]; //- 1 since input will be 1 - 6 and array looks at 0 to 5
+				b = blackMarkers[markerType]; //- 1 since input will be 1 - 6 and array looks at 0 to 5
 				break;
 			case Red:
-				b = redMarkers[markerType - 1];
+				b = redMarkers[markerType];
 				break;
 		}
 		return b;
@@ -268,10 +276,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				blackMarkers[markerType + 1] = true; //Looks at markerType + 1 so it is looking at 1 - 6 not 0 - 5
+				blackMarkers[markerType] = true; //Looks at markerType - 1 so it is looking at 0 - 5 not 1 - 6
 				break;
 			case Red:
-				redMarkers[markerType + 1] = true;
+				redMarkers[markerType] = true;
 				break;
 		}
 	}
@@ -288,10 +296,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				blackMarkers[markerType + 1] = false; //Looks at markerType + 1 so it is looking at 1 - 6 not 0 - 5
+				blackMarkers[markerType] = false;
 				break;
 			case Red:
-				redMarkers[markerType + 1] = false;
+				redMarkers[markerType] = false;
 				break;
 		}
 	}
@@ -302,7 +310,7 @@ public class Cell
 	 */
 	public String toString()
 	{
-		String emptyCellString = "-";//This should be the String to return if the cell is empty, this is used for checking later
+		String emptyCellString = ".";//This should be the String to return if the cell is empty, this is used for checking later
 		String returnString = emptyCellString;
 		int numFoodPellets = 0;
 		for(int i = 0; i < contains.size(); i++)

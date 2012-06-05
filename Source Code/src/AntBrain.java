@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * and what to do.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 8
+ * @version 05/06/1012 - 14
  */
 //Will not work until ant is completed.
 public class AntBrain
@@ -27,6 +27,7 @@ public class AntBrain
 		currentState = 0;
 		Object[] o = states.toArray();
 		this.ant = a;
+		this.states = new State[o.length];
 		for(int i = 0; i < o.length; i++)
 		{
 			this.states[i] = (State)o[i];
