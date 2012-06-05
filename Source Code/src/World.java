@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 05/06/1012 - 13
+ * @version 05/06/2012 - 13
  */
 public class World
 {
