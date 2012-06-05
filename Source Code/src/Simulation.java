@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 05/06/1012 - 5
+ * @version 05/06/1012 - 6
  */
 public class Simulation
 {
@@ -66,7 +66,10 @@ public class Simulation
 				//load world into cells
 				gui.loadCells(nextWorld);
 			}
-			
+			else
+			{
+				nextWorld = null;
+			}
 			//create the new world for these players
 			World.getNewWorld(blackBrain, redBrain, nextWorld);
 			
