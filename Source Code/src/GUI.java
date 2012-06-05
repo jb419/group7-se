@@ -282,12 +282,12 @@ public class GUI
 		if (message.equals("brain"))
 		{
 			//playerNameTextField.setText(lastPlayerAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-			JOptionPane.showMessageDialog(frame, "Player text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "Player text field input is not correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
 		}
 		else if (message.equals("world"))
 		{
 			//worldLocationTextField.setText(lastWorldAdded); // so that the user can edit their mistake instead of having to re-type the whole thing
-			JOptionPane.showMessageDialog(frame, "World text field input is not syntactically correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(frame, "World text field input is not correct!", "Input incorrect", JOptionPane.ERROR_MESSAGE);
 		}
 		else
 		{

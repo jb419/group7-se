@@ -175,6 +175,10 @@ public class Simulation
 			{
 				goodBrain = false;
 			}
+			else
+			{
+				gui.outPutError("File not found!");
+			}
 
 			//Checking that the brain is syntactically correct
 			try
@@ -191,6 +195,10 @@ public class Simulation
 			{
 				tournament.addPlayer(m.group(1), m.group(2));
 				numOfPlayers++;
+			}
+			else
+			{
+				gui.outPutError("Brain not syntactically correct!");
 			}
 		}
 		else
