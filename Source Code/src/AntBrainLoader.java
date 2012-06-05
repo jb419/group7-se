@@ -7,7 +7,7 @@ import java.io.IOException;
  * whitespace but it will not check that each state takes place on a new line.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 2
+ * @version 05/06/2012 - 3
  */
 public class AntBrainLoader
 {
@@ -39,9 +39,11 @@ public class AntBrainLoader
 	public BrainToken getNextToken()
 	{
 		BrainToken b = new BrainToken(false, "");
+		int eof = -1;
+		char eofChar = (char)eof;
 		try
 		{
-			if(nextChar == -1)
+			if(nextChar == eofChar)
 			{
 				b = new BrainToken(true, "%EOF%"); //Used %EOF% as it is unlikely to come up otherwise. Also making the isInteger true with %EOF% makes the EOF token unique.
 			}
@@ -73,13 +75,13 @@ public class AntBrainLoader
 					nextChar = (char)fr.read();
 				}
 			}
-			else if(nextChar == -1)
+			else if(nextChar == eofChar)
 			{
 
 			}
 			else
 			{
-				System.err.println("Unrecognised Character in Brain: " + brainLocation);
+				System.err.println("Unrecognised Character in Brain: " + brainLocation + " '" + nextChar + "'");
 				System.exit(1);
 			}
 		}

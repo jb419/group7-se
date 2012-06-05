@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 03/06/1012 - 4
+ * @version 05/06/1012 - 3
  */
 public class AntBrainInterpreter
 {
@@ -228,7 +228,7 @@ public class AntBrainInterpreter
 					{
 						cond = BrainCondition.FriendWithFood;
 					}
-					else if(condition.equals("ForWithFood"))
+					else if(condition.equals("FoeWithFood"))
 					{
 						cond = BrainCondition.FoeWithFood;
 					}
@@ -370,4 +370,16 @@ public class AntBrainInterpreter
 			}
 		}
 	}
+	
+	/*public static void main(String args[])
+	{
+		try
+		{
+		AntBrainInterpreter a = new AntBrainInterpreter("testbrain.txt");
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	}*/
 }
