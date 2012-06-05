@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 03/06/1012 - 1
+ * @version 05/06/1012 - 5
  */
 public class Cell
 {
@@ -128,37 +128,44 @@ public class Cell
 			{
 				i ++;
 			}
-			
-			switch(c)
+			if(i < contains.size())
 			{
-				case BlackAnt:
-					b = a.isAnt(AntColour.Black); //Check if it an ant of the correct colour
-					break;
-				case RedAnt:
-					b = a.isAnt(AntColour.Red);
-					break;
-				case BlackAntWithFood:
-					if(a.isAnt(AntColour.Black)) //Need to check if the ant is the correct colour before checking if it has food
-					{
-						Ant ant = (Ant)a;
-						b = ant.hasFood();
-					}
-					else
-					{
-						b = false;
-					}
-					break;
-				case RedAntWithFood:
-					if(a.isAnt(AntColour.Red))
-					{
-						Ant ant = (Ant)a;
-						b = ant.hasFood();
-					}
-					else
-					{
-						b = false;
-					}
-					break;
+				a = contains.get(i);
+				switch(c)
+				{
+					case BlackAnt:
+						b = a.isAnt(AntColour.Black); //Check if it an ant of the correct colour
+						break;
+					case RedAnt:
+						b = a.isAnt(AntColour.Red);
+						break;
+					case BlackAntWithFood:
+						if(a.isAnt(AntColour.Black)) //Need to check if the ant is the correct colour before checking if it has food
+						{
+							Ant ant = (Ant)a;
+							b = ant.hasFood();
+						}
+						else
+						{
+							b = false;
+						}
+						break;
+					case RedAntWithFood:
+						if(a.isAnt(AntColour.Red))
+						{
+							Ant ant = (Ant)a;
+							b = ant.hasFood();
+						}
+						else
+						{
+							b = false;
+						}
+						break;
+				}
+			}
+			else
+			{
+				b = false;
 			}
 		}
 		/////////////////////////////Dealing with conditions related to the ant hills./////////////////////////////
@@ -168,15 +175,22 @@ public class Cell
 			{
 				i ++;
 			}
-			
-			switch(c)
+			if(i < contains.size())
 			{
-				case RedHill:
-					b = a.isAntHill(AntColour.Red);
-					break;
-				case BlackHill:
-					b = a.isAntHill(AntColour.Black);
-					break;
+				a = contains.get(i);
+				switch(c)
+				{
+					case RedHill:
+						b = a.isAntHill(AntColour.Red);
+						break;
+					case BlackHill:
+						b = a.isAntHill(AntColour.Black);
+						break;
+				}
+			}
+			else
+			{
+				b = false;
 			}
 		}
 		/////////////////////////////Dealing with other conditions/////////////////////////////
@@ -186,7 +200,7 @@ public class Cell
 			{
 				i++;
 			}
-			b = a.isRocky(); //True is a rock has been found, false if i has reached the end of the contains list, these are the only reasons the loop will terminate
+			b = i < contains.size(); //True is a rock has been found, false if i has reached the end of the contains list, these are the only reasons the loop will terminate
 		}
 		else if(c == Condition.Food)
 		{
@@ -194,7 +208,7 @@ public class Cell
 			{
 				i++;
 			}
-			b = a.isFood(); //True if food has been found, false if i has reached the end of the contains list
+			b = i < contains.size; //True if food has been found, false if i has reached the end of the contains list
 		}
 		//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
 		else if(c == Condition.RedMarker)

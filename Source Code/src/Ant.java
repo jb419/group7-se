@@ -1,9 +1,9 @@
 
 /**
- * 
+ * An Ant object is a simple actor with a finite state automata for a brain
  * 
  * @author Owen Cox
- * @version 04/06/2012 - 4
+ * @version 05/06/2012 - 5
  */
 public class Ant extends Actor
 {
@@ -321,7 +321,7 @@ public class Ant extends Actor
 	 */
 	public void combatCheck()
 	{
-		Ant[] adjacentAnts = world.adjacentAnts(position);
+		Ant[] adjacentAnts = world.adjacentAnts(position, otherColour());
 		if(isSurrounded())
 		{
 			die();
@@ -343,7 +343,7 @@ public class Ant extends Actor
 	 */
 	public boolean isSurrounded()
 	{
-		Ant[] adjacentAnts = world.adjacentAnts(position);
+		Ant[] adjacentAnts = world.adjacentAnts(position, otherColour());
 		return adjacentAnts.length >= 5;
 	}
 	

@@ -6,7 +6,7 @@ import java.util.ArrayList;
  * and what to do.
  * 
  * @author Owen Cox
- * @version 04/06/2012 - 1
+ * @version 05/06/1012 - 5
  */
 //Will not work until ant is completed.
 public class AntBrain
@@ -14,12 +14,12 @@ public class AntBrain
 	private State[] states;
 	private int currentState;
 	private Ant ant;
-	int seed;
+	long seed;
 	
 	public AntBrain(ArrayList<State> states, Ant a)
 	{
-		seed = 0;//random int for initial seed (s(0))
-		for(int i = 0; i < 3; i++) //Go to s(4)
+		seed = 12345;//random initial seed
+		for(int i = 0; i < 4; i++) //Go to s(4)
 		{
 			iterateSeed();
 		}
@@ -38,8 +38,7 @@ public class AntBrain
 	 */
 	private void iterateSeed()
 	{
-		seed *= 22695477;
-		seed += 1;
+		seed = Math.abs((seed * 22695477) + 1); //NEED abs, seed wraps into negative after first few iterations otherwise
 	}
 	
 	/**
@@ -143,11 +142,13 @@ public class AntBrain
 	 * @param probability the number to flip against
 	 * @return if flip has returned true or false
 	 */
-	private boolean flip(int probability)
+	public boolean flip(int probability)
 	{
 		//Using the customer's random int generator formula
-		int xVal = (seed / 65536) % 16384;
-		int result = xVal % probability;
+		long xVal = (seed / 65536) % 16384;
+		long result = xVal % probability;
+		iterateSeed();
+		//System.out.println("x" + xVal);
 		boolean b;
 		if(result == 0)
 		{
@@ -262,4 +263,14 @@ public class AntBrain
 		}
 		return c;
 	}
+	
+	/*public static void main(String args[])
+	{
+		ArrayList<State> al = new ArrayList<State>();
+		AntBrain a = new AntBrain(al, null);
+		for(int i = 0; i < 100; i++)
+		{
+			a.flip(16384);
+		}
+	}*/
 }

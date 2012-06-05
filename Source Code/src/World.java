@@ -3,7 +3,7 @@
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 04/06/1012 - 4
+ * @version 05/06/1012 - 5
  */
 public class World
 {
@@ -438,12 +438,12 @@ public class World
 	}
 	
 	/**
-	 * The adjacentAnts method gets an array of ants adjacent to the given cell
+	 * The adjacentAnts method gets an array of ants adjacent to the given cell of a specific colour
 	 *
 	 * @param pos the cell to check for ants adjacent to 
 	 * @return an array of adjacent ants
 	 */
-	public Ant[] adjacentAnts(int[] pos)
+	public Ant[] adjacentAnts(int[] pos, AntColour colour)
 	{
 		Ant[] adjAnts = new Ant[6];
 		for(Direction d: Direction.values())
@@ -451,7 +451,11 @@ public class World
 			int[] adjPos = adjacentCell(pos, d);
 			if(antAt(adjPos))
 			{
-				adjAnts[adjAnts.length] = getAntAt(adjPos);
+				Ant a = getAntAt(adjPos);
+				if(a.getColour()== colour)
+				{
+					adjAnts[adjAnts.length] = a;
+				}
 			}
 		}
 		return adjAnts;

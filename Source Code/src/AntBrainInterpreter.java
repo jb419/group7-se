@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 3
+ * @version 05/06/1012 - 5
  */
 public class AntBrainInterpreter
 {
@@ -242,7 +242,7 @@ public class AntBrainInterpreter
 					}
 					else if(condition.equals("Marker"))
 					{
-						cond = BrainCondition.Marker; //TODO: Deal with the rest of this
+						cond = BrainCondition.Marker;
 						nextToken = loader.getNextToken();
 						if(nextToken.getIsInteger())
 						{

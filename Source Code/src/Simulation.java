@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 04/06/2012 - 5
+ * @version 05/06/1012 - 5
  */
 public class Simulation
 {
@@ -71,7 +71,7 @@ public class Simulation
 			World.getNewWorld(blackBrain, redBrain, nextWorld);
 			
 			//run the new game
-			int roundLength = 200000; //TODO: number of ticks in a game?
+			int roundLength = 300000;
 			
 			//round 1
 			for(numTick = 0; numTick < roundLength; numTick++)
