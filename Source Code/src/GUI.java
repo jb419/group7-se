@@ -248,9 +248,7 @@ public class GUI
 		// creates a blank cell
 		JLabel blankCell = new JLabel(" ", JLabel.CENTER);
 		blankCell.setPreferredSize(new Dimension(10, 20));
-		
 		return blankCell;
-		
 	}
 	
 	/**
@@ -264,15 +262,12 @@ public class GUI
 	{
 		if (antColour.equals("black"))
 		{
-			blackScoreLabel.setText("" + name + " score: " + value);
-			
+			blackScoreLabel.setText("" + name + " score: " + value);	
 		}
 		else 
 		{
 			redScoreLabel.setText("" + name + " score: " + value);
-			
-		}
-			
+		}	
 	}
 	
 	/**
@@ -308,6 +303,10 @@ public class GUI
 		JOptionPane.showMessageDialog(frame, "The winner is " + victor, "Winner", JOptionPane.PLAIN_MESSAGE);
 	}
 	
+	public void updateRound(String value)
+	{
+		roundLabel.setText("" + value);
+	}
 	
 	/**
 	 * StartActionListener inner class is used to listen for the start button to be clicked
@@ -317,20 +316,27 @@ public class GUI
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			if(simulation.getNumOfPlayers()>= 2)
+			if (simulation.getNumOfWorlds() <1)
 			{
-				RunChecker.run();
-				if(RunChecker.isRunning())
-				{
-					// set text fields so to un-editable
-					playerNameTextField.setEditable(false); 
-					worldLocationTextField.setEditable(false);
-				}
-				simulation.execute();
+				outPutError("Need at least 1 World! \n Type \"random\" to generate a random world");
 			}
 			else
 			{
-				outPutError("Not enough players!");
+				if(simulation.getNumOfPlayers()>= 2)
+				{
+					RunChecker.run();
+					if(RunChecker.isRunning())
+					{
+						// set text fields so to un-editable
+						playerNameTextField.setEditable(false); 
+						worldLocationTextField.setEditable(false);
+					}
+					simulation.execute();
+				}
+				else
+				{
+					outPutError("Not enough players!");
+				}
 			}
 		}
 	}
@@ -351,14 +357,37 @@ public class GUI
 				simulation.addPlayerAndBrain(playerNameTextField.getText());
 				playerNameTextField.setText("");
 			}
+			
+			if (playersAdded.contains(playerNameTextField.getText()))
+			{
+				outPutError("Input in world text field has already been seen");
+				playerNameTextField.setText("");
+			}
+			
+
 			// make sure text field is not empty or previous text remains before adding
 			if  (!worldLocationTextField.getText().equals("")  && !worldsAdded.contains(worldLocationTextField.getText())  && !worldLocationTextField.getText().contains("Enter"))
 			{
-				worldsAdded.add(worldLocationTextField.getText());
-				simulation.addWorldLocation(worldLocationTextField.getText());
-				worldLocationTextField.setText("");
+				if (worldLocationTextField.getText().equals("random"))
+				{
+					simulation.addWorldLocation(worldLocationTextField.getText());
+					worldLocationTextField.setText("");
+				}
+				else
+				{
+					worldsAdded.add(worldLocationTextField.getText());
+					simulation.addWorldLocation(worldLocationTextField.getText());
+					worldLocationTextField.setText("");
+				}
+
 			}
 			
+			if (worldsAdded.contains(worldLocationTextField.getText()))
+			{
+				outPutError("Input in world text field has already been seen");
+				worldLocationTextField.setText("");
+			}
+
 			
 		}
 	}

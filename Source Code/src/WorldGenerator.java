@@ -4,7 +4,7 @@ import java.util.Random;
  * This Class generates a random world
  * 
  * @author Brett Flitter
- * @version 06/06/2012 - 1
+ * @version 06/06/2012 - 2
  * 
  */
 
@@ -17,9 +17,13 @@ public class WorldGenerator {
 	int numOfFood;
 	int numOfHills;
 	int numOfRocks;
+	private WorldChecker worldChecker;
 
-	
 	public WorldGenerator()
+	{
+		//generate();
+	}
+	public WorldToken[][] generate()
 	{
 		world = new WorldToken[150][150];
 		correct = true;
@@ -28,6 +32,7 @@ public class WorldGenerator {
 		numOfFood = 0;
 		numOfHills = 0;
 		numOfRocks = 0;
+		worldChecker = new WorldChecker();
 
 		
 		addWalls();
@@ -37,6 +42,9 @@ public class WorldGenerator {
 		addRocks();
 		addEmpty();
 		
+		/*
+		 * LEFT FOR TESTING PURPOSES - WILL PRINT THE GENERATED WORLD IN TERMINAL
+		 * 
 		for (int i = 0; i < world.length; i++)
 		{
 			for (int j = 0; j < world.length; j++)
@@ -72,6 +80,17 @@ public class WorldGenerator {
 				}
 			}
 		}
+		*/
+		
+		if(!worldChecker.checkWorld(world)) {
+			generate();
+		}
+		else
+		{
+			return world;
+		}
+		
+		return null;
 
 	}
 	
@@ -174,8 +193,10 @@ public class WorldGenerator {
 			}
 			else if (shape == 2)
 			{
-				// ##
-				// ##
+				// ####
+				// ####
+				// ####
+				// ####
 				for (int m = i; m < i + 4; m ++) 
 				{
 					for (int n = j; n < j + 4; n++ ) // first row
@@ -216,6 +237,7 @@ public class WorldGenerator {
 			}
 			else if (shape == 3)
 			{
+				int counter = 0;
 				
 				int p = j;
 				for (int m = i; m < i + 10; m ++) 
@@ -233,10 +255,16 @@ public class WorldGenerator {
 						{
 							correct = false;
 						}
+						counter++;
 					}
-					p++;
+					if (counter == 4)
+					{
+						p++;
+						counter = 0;
+					}
 				}
 				
+				counter = 0;
 				if(correct)
 				{
 					p = j;
@@ -246,8 +274,13 @@ public class WorldGenerator {
 						{
 							seen[m][n] = true;
 							world[m][n] = new WorldToken(WorldTokenType.Rock);
+							counter++;
 						}
-						p++;
+						if (counter == 4)
+						{
+							p++;
+							counter = 0;
+						}
 					}
 					numOfRocks++;
 				}
@@ -258,7 +291,7 @@ public class WorldGenerator {
 			}
 			else if (shape == 4)
 			{
-				
+				int counter = 0;
 				int p = j;
 				for (int m = i; m < i + 10; m ++) 
 				{
@@ -275,10 +308,16 @@ public class WorldGenerator {
 						{
 							correct = false;
 						}
+						counter++;
 					}
-					p--;
+					if (counter == 4)
+					{
+						p--;
+						counter = 0;
+					}
 				}
 				
+				counter = 0;
 				if(correct)
 				{
 					p = j;
@@ -288,8 +327,13 @@ public class WorldGenerator {
 						{
 							seen[m][n] = true;
 							world[m][n] = new WorldToken(WorldTokenType.Rock);
+							counter++;
 						}
-						p--;
+						if (counter == 4)
+						{
+							p--;
+							counter = 0;
+						}
 					}
 					numOfRocks++;
 				}
@@ -362,19 +406,19 @@ public class WorldGenerator {
 			if(i % 2 == 0)
 			{ // if even
 				// place this shape
-				//        + + + + + + +
-				//      + + + + + + + +
-				//      + + + + + + + + +
-				//    + + + + + + + + + +
-				//    + + + + + + + + + + +
-				//  + + + + + + + + + + + +
-				//  + + + + + + + + + + + + +
-				//  + + + + + + + + + + + +
-				//    + + + + + + + + + + +
-				//    + + + + + + + + + + 
-				//      + + + + + + + + +
-				//      + + + + + + + +
-				//        + + + + + + +
+				//       +++++++
+				//      ++++++++
+				//      +++++++++
+				//     ++++++++++
+				//     +++++++++++
+				//    ++++++++++++
+				//    +++++++++++++
+				//    ++++++++++++
+				//     +++++++++++
+				//     ++++++++++ 
+				//      +++++++++
+				//      ++++++++
+				//       +++++++
 				//   
 			
 				for (int n = j; n < j + 7; n++ ) // first row
@@ -1455,11 +1499,12 @@ public class WorldGenerator {
 				}
 			}
 		}
+		
 	}
 	
-	public static void main(String[] args)
-	{
-		new WorldGenerator();
-	}
+	//public static void main(String[] args)
+	//{
+	//	new WorldGenerator();
+	//}
 }
 

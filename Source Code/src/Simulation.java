@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 06/06/1012 - 5
+ * @version 06/06/1012 - 6
  */
 public class Simulation extends SwingWorker<Void, Void>
 {
@@ -78,7 +78,7 @@ public class Simulation extends SwingWorker<Void, Void>
 	{
 		gui.updateScore("red", redPlayer, "" + foodRed); 
 		gui.updateScore("black", blackPlayer, "" + foodBlack);
-		//gui.setNumRounds("" + numTicks);
+		gui.updateRound("" + numTicks);
 		String[][] grid = World.getWorld().toStrings();
 		for(int r = 0; r < grid.length; r++)
 		{
@@ -244,7 +244,7 @@ public class Simulation extends SwingWorker<Void, Void>
 			Matcher m = p.matcher(worldLocation);
 			if (m.find())
 			{	
-				WorldToken[][] world = worldLoader.loadWorld(m.group(1));  // LLD says World creates worldLoader.. what do you think, leave it like this?
+				WorldToken[][] world = worldLoader.loadWorld(m.group(1));  
 				if (world != null)
 				{
 					tournament.addWorld(world);
@@ -253,6 +253,20 @@ public class Simulation extends SwingWorker<Void, Void>
 				else
 				{
 					gui.outPutError(worldLoader.isError());
+				}
+			}
+			else if (worldLocation.equals("random"))
+			{
+				WorldGenerator worldGenerator = new WorldGenerator();
+				WorldToken[][] world = worldGenerator.generate();  
+				if (world != null)
+				{
+					tournament.addWorld(world);
+					numOfWorlds++;
+				}
+				else
+				{
+					gui.outPutError("Couldn't generate a world, please try again!");
 				}
 			}
 			else 
@@ -271,6 +285,14 @@ public class Simulation extends SwingWorker<Void, Void>
 		return numOfPlayers;
 	}
 	
+	/**
+	 * Get the number of world
+	 * @return number of worlds
+	 */
+	public int getNumOfWorlds()
+	{
+		return numOfWorlds;
+	}
 	
 	public static void main(String args[])
 	{

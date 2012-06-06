@@ -5,7 +5,7 @@ import java.util.Queue;
  * This class takes a world all ready made into Tokens and checks to see if its syntactically correct
  * 
  * @author Brett Flitter
- * @version 04/06/2012 - 2
+ * @version 06/06/2012 - 3
  *
  */
 public class WorldChecker {
@@ -421,7 +421,7 @@ public class WorldChecker {
 						}
 						
 					}
-					else if (currentWorld[i][j+1].getType() == hill && currentWorld[i+1][j-1].getType() == hill)
+					else if (currentWorld[i][j+1].getType() == hill && currentWorld[i+1][j-1].getType() == WorldTokenType.Empty)
 						// find this shape - notice the slight difference in shape from the other
 						//        + + + + + + +
 						//        + + + + + + + +
