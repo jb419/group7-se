@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 14
+ * @version 06/06/1012 - 2
  */
 public class Cell
 {
@@ -213,31 +213,27 @@ public class Cell
 				}
 				b = i < contains.size(); //True if food has been found, false if i has reached the end of the contains list
 			}
-			//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
-			else if(c == Condition.RedMarker)
+		}
+		//Dealing with checking for the existence of any marker, these are used for the foe markers which only check if a marker exists, not a specific number
+		if(c == Condition.RedMarker)
+		{
+			for(int j = 0; j < redMarkers.length; j++)
 			{
-				for(int j = 0; j < redMarkers.length; j++)
+				if(redMarkers[j])
 				{
-					if(redMarkers[j])
-					{
-						b = true;
-					}
-				}
-			}
-			else if(c == Condition.BlackMarker)
-			{
-				for(int j = 0; j < blackMarkers.length; j++)
-				{
-					if(blackMarkers[j])
-					{
-						b = true;
-					}
+					b = true;
 				}
 			}
 		}
-		else
+		else if(c == Condition.BlackMarker)
 		{
-			b = false;
+			for(int j = 0; j < blackMarkers.length; j++)
+			{
+				if(blackMarkers[j])
+				{
+					b = true;
+				}
+			}
 		}
 		return b;
 	}
@@ -255,10 +251,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				b = blackMarkers[markerType]; //- 1 since input will be 1 - 6 and array looks at 0 to 5
+				b = blackMarkers[markerType - 1]; //- 1 since input will be 1 - 6 and array looks at 0 to 5
 				break;
 			case Red:
-				b = redMarkers[markerType];
+				b = redMarkers[markerType - 1];
 				break;
 		}
 		return b;
@@ -276,10 +272,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				blackMarkers[markerType] = true; //Looks at markerType - 1 so it is looking at 0 - 5 not 1 - 6
+				blackMarkers[markerType - 1] = true; //Looks at markerType - 1 so it is looking at 0 - 5 not 1 - 6
 				break;
 			case Red:
-				redMarkers[markerType] = true;
+				redMarkers[markerType - 1] = true;
 				break;
 		}
 	}
@@ -296,10 +292,10 @@ public class Cell
 		switch(c)
 		{
 			case Black:
-				blackMarkers[markerType] = false;
+				blackMarkers[markerType - 1] = false;
 				break;
 			case Red:
-				redMarkers[markerType] = false;
+				redMarkers[markerType - 1] = false;
 				break;
 		}
 	}

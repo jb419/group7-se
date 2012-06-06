@@ -79,7 +79,7 @@ public class Simulation extends SwingWorker<Void, Void>
 	{
 		gui.updateScore("red", redPlayer, "" + foodRed); 
 		gui.updateScore("black", blackPlayer, "" + foodBlack);
-		gui.setNumRounds("" + numTicks);
+		//gui.setNumRounds("" + numTicks);
 		String[][] grid = World.getWorld().toStrings();
 		for(int r = 0; r < grid.length; r++)
 		{

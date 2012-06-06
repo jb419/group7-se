@@ -152,7 +152,6 @@ public class AntBrain
 		x = x.mod(BigInteger.valueOf(16384));
 		BigInteger result = x.mod(BigInteger.valueOf(probability));
 		iterateSeed();
-		System.out.println("x" + x);
 		boolean b;
 		if(result.compareTo(BigInteger.valueOf(0)) == 0)
 		{
@@ -274,7 +273,7 @@ public class AntBrain
 		AntBrain a = new AntBrain(al, null);
 		for(int i = 0; i < 100; i++)
 		{
-			a.flip(16384);
+			System.out.println(a.flip(2));
 		}
 	}
 }
