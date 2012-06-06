@@ -2,6 +2,8 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.swing.SwingWorker;
+
 /**
  * The Simulation class is the first class to be created. It's responsible for keeping the GUI and tournament updated.
 
@@ -9,10 +11,9 @@ import java.util.regex.Pattern;
  * @author Brett Flitter, Owen Cox
  * @version 05/06/1012 - 6
  */
-public class Simulation
+public class Simulation extends SwingWorker<Void, Void>
 {
 	private Tournament tournament;
-	private int numTick;
 	private int foodRed;
 	private int foodBlack;
 	private GUI gui;
@@ -20,7 +21,13 @@ public class Simulation
 	private int numOfPlayers;
 	private int numOfWorlds;
 
-
+	private WorldToken[][] nextWorld;
+	private String redPlayer;
+	private String blackPlayer;
+	private int numTicks;
+	private boolean sidesSwapped;
+	private boolean isFinished;
+	private final int roundLength = 300000;
 	
 	/**
 	 * Constructor
@@ -32,146 +39,145 @@ public class Simulation
 		tournament = new Tournament();
 		foodRed = 0;
 		foodBlack = 0;
-		numTick = 0;
+		redPlayer = "None";
+		blackPlayer = "None";
+		numTicks = 0;
+		sidesSwapped = false;
 		worldLoader = new WorldLoader();
+		isFinished = false;
 		
+		// A bit hacked together but hopefully itll work.
+		WorldToken[][] wt = new WorldToken[150][150];
+		for(int i = 0; i < 150; i++)
+		{
+			for(int j = 0; j < 150; j++)
+			{
+				wt[i][j] = new WorldToken(WorldTokenType.Empty);
+			}
+		}
+		gui.loadCells(wt);
+		
+	}
+	
+	protected Void doInBackground() throws Exception
+	{
+		while(RunChecker.isRunning())
+		{
+			step();
+			updateGUI();
+			Thread.sleep(5L);
+		}
+		return null;
+	}
+	
+	public void done()
+	{
+		
+	}
+	
+	private void updateGUI()
+	{
+		gui.updateScore("red", redPlayer, "" + foodRed); 
+		gui.updateScore("black", blackPlayer, "" + foodBlack);
+		gui.setNumRounds("" + numTicks);
+		String[][] grid = World.getWorld().toStrings();
+		for(int r = 0; r < grid.length; r++)
+		{
+			for(int c = 0; c < grid.length; c++)
+			{
+				String tileValue = grid[r][c];
+				gui.updateCell(r, c, tileValue);					
+			}
+		}
+		if(isFinished)
+		{
+			gui.showVictor(tournament.getVictor());
+		}
 	}
 	
 	/**
-	 * The run method runs through each possible matching of brains in the tournament and pits them
-	 * against one another, playing 2 rounds for each.
+	 * The step method plays a single step, that is, it updates the World once
 	 *
 	 */
-	public void run()
+	public void step()
 	{
-		while(tournament.hasMoreGames())
+		if(World.getWorld() == null)
 		{
-			//Set up a new game
-			//get the next 2 players
 			String[] players = tournament.nextContestants();
-			String redPlayer = players[0];
-			String blackPlayer = players[1];
-			gui.updateScore("red", redPlayer, "0"); 
-			gui.updateScore("black", blackPlayer, "0");
-			
-			
-			String blackBrain = tournament.getBrain(blackPlayer);
-			String redBrain = tournament.getBrain(redPlayer);
-			
-			//get the next world
-			WorldToken[][] nextWorld = null;
+			redPlayer = players[0];
+			blackPlayer = players[1];
+			foodRed = 0;
+			foodBlack = 0;
+			String redBrainLoc = tournament.getBrain(redPlayer);
+			String blackBrainLoc = tournament.getBrain(blackPlayer);
 			if(tournament.hasWorld())
 			{
 				nextWorld = tournament.getNextWorld();
-				//load world into cells
-				gui.loadCells(nextWorld);
+				World.getNewWorld(blackBrainLoc, redBrainLoc, nextWorld);
 			}
 			else
 			{
-				nextWorld = null;
-			}
-			//create the new world for these players
-			World.getNewWorld(blackBrain, redBrain, nextWorld);
-			
-			//run the new game
-			int roundLength = 300000;
-			
-			//round 1
-			for(numTick = 0; numTick < roundLength; numTick++)
-			{
-				try//Adding a small delay to better appreciate the action
-				{
-					Thread.sleep(100L);
-				}
-				catch(InterruptedException e)
-				{
-					System.err.println("Interrupted, exiting...");
-					System.exit(0);
-				}
-				World.getWorld().update();
-				foodRed = World.getWorld().calculateScore(AntColour.Red);
-				foodBlack = World.getWorld().calculateScore(AntColour.Black);
-				
-				//Update GUI
-				String redScore = "" + foodRed;
-				String blackScore = "" + foodBlack;
-				
-				gui.updateScore("red", redPlayer, redScore);
-				gui.updateScore("black", blackPlayer, blackScore);
-				
-				String[][] grid = World.getWorld().toStrings();
-				for(int r = 0; r < grid.length; r++)
-				{
-					for(int c = 0; c < grid.length; c++)
-					{
-						String tileValue = grid[r][c];
-						gui.updateCell(r, c, tileValue);					
-					}
-				}
-			}
-			
-			//Aftermath of round 1
-			if(foodRed > foodBlack)
-			{
-				tournament.addPoints("red", 1);  // addpoints() is implemented in tournament according to the LLD. Should this be the players name?
-			}
-			else
-			{
-				tournament.addPoints("black", 1);
-			}
-			
-			//swap sides
-			World.getWorld().swapSides();
-			
-			//round 2
-			for(numTick = 0; numTick < roundLength; numTick++) 
-			{
-				try //Adding a small delay to better appreciate the action
-				{
-					Thread.sleep(100L);
-				}
-				catch(InterruptedException e)
-				{
-					System.err.println("Interrupted, exiting...");
-					System.exit(0);
-				}
-				World.getWorld().update();
-				foodRed = World.getWorld().calculateScore(AntColour.Red);
-				foodBlack = World.getWorld().calculateScore(AntColour.Black);
-				
-				//Update GUI
-				String redScore = "" + foodRed;
-				String blackScore = "" + foodBlack;
-				
-				gui.updateScore("red", redPlayer, redScore);
-				gui.updateScore("black", blackPlayer, blackScore);
-				
-				String[][] grid = World.getWorld().toStrings();
-				for(int r = 0; r < grid.length; r++)
-				{
-					for(int c = 0; c < grid.length; c++)
-					{
-						String tileValue = grid[r][c];
-						gui.updateCell(r, c, tileValue);						
-					}
-				}
-			}
-			
-			//aftermath of round 2
-			if(foodRed > foodBlack)
-			{
-				tournament.addPoints("red", 1);
-			}
-			else
-			{
-				tournament.addPoints("black", 1);
+				World.getNewWorld(blackBrainLoc, redBrainLoc, null);
+				nextWorld = World.getWorld().getTokens();
 			}
 		}
-		
-		String victor = tournament.getVictor(); 
-		gui.showVictor(victor); 
+		else
+		{
+			if(numTicks <= roundLength)
+			{
+				foodRed = World.getWorld().calculateScore(AntColour.Red);
+				foodBlack = World.getWorld().calculateScore(AntColour.Black);
+				if(numTicks == roundLength)
+				{
+					//first update points as the end of a round has been reached
+					if(foodRed > foodBlack)
+					{
+						tournament.addPoints("red", 1);
+					}
+					else
+					{
+						tournament.addPoints("black", 1);
+					}
+					
+					//next see what type of round end it is
+					if(!sidesSwapped)
+					{
+						World.getWorld().swapSides(); //swap sides if necessary
+					}
+					else if(tournament.hasMoreGames()) //otherwise get new players and world
+					{
+						sidesSwapped = false;
+						String[] players = tournament.nextContestants();
+						redPlayer = players[0];
+						blackPlayer = players[1];
+						//get new brains
+						String redBrainLoc = tournament.getBrain("red");
+						String blackBrainLoc = tournament.getBrain("black");
+						
+						if(tournament.hasWorld())
+						{
+							nextWorld = tournament.getNextWorld();
+							World.getNewWorld(blackBrainLoc, redBrainLoc, nextWorld);
+						}
+						else
+						{
+							World.getNewWorld(blackBrainLoc, redBrainLoc, null);
+						}
+					}
+					else
+					{
+						isFinished = true; //if there aren't any more games left we're done here
+					}
+					numTicks = 0;
+				}
+				else
+				{
+					World.getWorld().update(); //if not at the end of the round update and tick
+					numTicks ++;
+				}
+			}
+		}
 	}
-	
 	
 	/**
 	 * The addPlayerAndBrain method is used to add the players along with their brain location.

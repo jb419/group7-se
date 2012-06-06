@@ -343,11 +343,11 @@ public class Cell
 			{
 				returnString = a.toString();
 			}
-			//Need to now check if any food is in the cell.
-			if(numFoodPellets > 0 && returnString.equals(emptyCellString))
-			{
-				returnString = "" + numFoodPellets;
-			}
+		}
+		//Need to now check if any food is in the cell.
+		if(numFoodPellets > 0 && returnString.equals(emptyCellString))
+		{
+			returnString = "" + numFoodPellets;
 		}
 		return returnString;
 	}

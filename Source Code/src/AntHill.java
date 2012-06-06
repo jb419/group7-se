@@ -18,6 +18,14 @@ public class AntHill extends Actor
 	public AntHill(AntColour colour)
 	{
 		this.colour = colour;
+		if(this.colour == AntColour.Red)
+		{
+			setStringVal("+");
+		}
+		else
+		{
+			setStringVal("-");
+		}
 	}
 	
 	/**

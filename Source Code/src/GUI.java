@@ -41,7 +41,8 @@ public class GUI
 		this.simulation = simulation;
 		playersAdded = new ArrayList<String>();
 		worldsAdded = new ArrayList<String>();
-
+		RunChecker rc = new RunChecker();
+		RunChecker.init();
 		build();
 	}
 	
@@ -318,13 +319,14 @@ public class GUI
 		{
 			if(simulation.getNumOfPlayers()>= 2)
 			{
-				// set text fields so to un-editable
-				playerNameTextField.setEditable(false); 
-				worldLocationTextField.setEditable(false);
-			
-				// WAKEY WAKEY SIMULATOR TIME TO START
-			
-				simulation.run();
+				RunChecker.run();
+				if(RunChecker.isRunning())
+				{
+					// set text fields so to un-editable
+					playerNameTextField.setEditable(false); 
+					worldLocationTextField.setEditable(false);
+				}
+				simulation.execute();
 			}
 			else
 			{

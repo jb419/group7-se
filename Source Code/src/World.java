@@ -32,7 +32,14 @@ public class World
 	 */
 	public static World getWorld()
 	{
-		return theWorld;
+		if(theWorld == null)
+		{
+			return null;
+		}
+		else
+		{
+			return theWorld;
+		}
 	}
 	
 	
@@ -62,7 +69,7 @@ public class World
 		}
 		catch(Exception e) //Should never be thrown, this was checked when the brain was entered.
 		{
-			System.err.println(e);
+			e.printStackTrace();
 		}
 		/*if(worldInitial == null)
 		{
@@ -84,7 +91,7 @@ public class World
 				switch(worldInitial[row][col].getType())
 				{
 					case Food://Add various stuff to cells
-						for(int i = 0; i < 9; i++)
+						for(int i = 0; i < 5; i++)
 						{
 							c.addFood();
 						}
@@ -105,6 +112,11 @@ public class World
 			}
 		}
 		addAnts();
+	}
+	
+	public WorldToken[][] getTokens()
+	{
+		return worldInitial;
 	}
 	
 	public void swapSides()
