@@ -5,7 +5,7 @@ import java.util.Arrays;
  * An Ant object is a simple actor with a finite state automata for a brain
  * 
  * @author Owen Cox
- * @version 06/06/1012 - 3
+ * @version 06/06/1012 - 5
  */
 public class Ant extends Actor
 {
@@ -165,23 +165,55 @@ public class Ant extends Actor
 	 */
 	public void turn(LeftOrRight lr)
 	{
-		Direction[] directions = Direction.values();
-		int i = direction.ordinal();
 		switch(lr)
 		{
 			case Left:
-				i--;
-				if(i < 0);
+				switch(direction)
 				{
-					i = directions.length - 1; //5, but this allows for later extension
+					case E:
+						direction = Direction.NE;
+						break;
+					case NE:
+						direction = Direction.NW;
+						break;
+					case NW:
+						direction = Direction.W;
+						break;
+					case W:
+						direction = Direction.SW;
+						break;
+					case SW:
+						direction = Direction.SE;
+						break;
+					case SE:
+						direction = Direction.E;
+						break; //not the most elegant solution...
 				}
-				
 				break;
 			case Right:
-				i = (i + 1) % directions.length; //uses % to loop from 5(5 + 1 = 6) to 0(6 % 6 = 0);
+				switch(direction)
+				{
+					case E:
+						direction = Direction.SE;
+						break;
+					case NE:
+						direction = Direction.E;
+						break;
+					case NW:
+						direction = Direction.NE;
+						break;
+					case W:
+						direction = Direction.NW;
+						break;
+					case SW:
+						direction = Direction.W;
+						break;
+					case SE:
+						direction = Direction.SW;
+						break;
+				}
 				break;
 		}
-		direction = directions[i];
 	}
 	
 	/**

@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * to manipulate those cells
  * 
  * @author Owen Cox, Brett Flitter
- * @version 05/06/1012 - 14
+ * @version 06/06/2012 - 5
  */
 public class World
 {
@@ -88,7 +88,7 @@ public class World
 			{
 				Cell c = new Cell();
 				cells[row][col] = c;
-				switch(worldInitial[row][col].getType())
+				switch(worldInitial[col][row].getType())
 				{
 					case Food://Add various stuff to cells
 						for(int i = 0; i < 5; i++)

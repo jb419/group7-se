@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 06/06/1012 - 3
+ * @version 06/06/1012 - 5
  */
 public class Simulation extends SwingWorker<Void, Void>
 {
@@ -84,7 +84,7 @@ public class Simulation extends SwingWorker<Void, Void>
 		{
 			for(int c = 0; c < grid.length; c++)
 			{
-				String tileValue = grid[r][c];
+				String tileValue = grid[c][r];
 				gui.updateCell(r, c, tileValue);					
 			}
 		}
