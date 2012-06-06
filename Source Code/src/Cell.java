@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * A Cell knows what actors are in it and can manipulate those actors
  * 
  * @author Owen Cox
- * @version 06/06/1012 - 2
+ * @version 06/06/1012 - 3
  */
 public class Cell
 {
@@ -248,6 +248,10 @@ public class Cell
 	public boolean isMarked(AntColour c, int markerType)
 	{
 		boolean b = false;
+		if(markerType == 0)
+		{
+			markerType = 1;
+		}
 		switch(c)
 		{
 			case Black:
@@ -269,6 +273,10 @@ public class Cell
 	 */
 	public void mark(int markerType, AntColour c)
 	{
+		if(markerType == 0)
+		{
+			markerType = 1;
+		}
 		switch(c)
 		{
 			case Black:
@@ -289,6 +297,10 @@ public class Cell
 	 */
 	public void unmark(int markerType, AntColour c)
 	{
+		if(markerType == 0)
+		{
+			markerType = 1;
+		}
 		switch(c)
 		{
 			case Black:

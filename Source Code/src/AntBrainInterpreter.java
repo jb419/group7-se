@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 14
+ * @version 06/06/1012 - 3
  */
 public class AntBrainInterpreter
 {
@@ -158,7 +158,7 @@ public class AntBrainInterpreter
 					{
 						throw new BrainException("state number", nextToken.getActualValue(), states.size());
 					}
-					states.add(new ThreeIntState(stateTrue, Instruction.Move, stateFalse, flipProbability));
+					states.add(new ThreeIntState(stateTrue, Instruction.Flip, stateFalse, flipProbability));
 				}
 
 				//Sensing, takes 2 ints, a direction to sense in and a condition.
@@ -376,6 +376,10 @@ public class AntBrainInterpreter
 		try
 		{
 			AntBrainInterpreter a = new AntBrainInterpreter("C:\\Users\\Owen\\ant.ant");
+			for(int i = 0; i < a.getStates().size(); i++)
+			{
+				System.out.println(a.getStates().get(i).getInstruction());
+			}
 		}
 		catch(Exception e)
 		{

@@ -1,9 +1,11 @@
+import java.util.Arrays;
+
 
 /**
  * An Ant object is a simple actor with a finite state automata for a brain
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 14
+ * @version 06/06/1012 - 3
  */
 public class Ant extends Actor
 {
@@ -98,13 +100,16 @@ public class Ant extends Actor
 	 */
 	public void step()
 	{
-		if(resting == 0)
+		if(this.alive)
 		{
-			brain.getNextInstruction();
-		}
-		else
-		{
-			resting --;
+			if(resting <= 0)
+			{
+				brain.getNextInstruction();
+			}
+			else
+			{
+				resting --;
+			}
 		}
 	}
 	
@@ -115,11 +120,11 @@ public class Ant extends Actor
 	 */
 	public boolean move()
 	{
-		boolean b;
 		int[] desiredPos = world.adjacentCell(position, direction);
-		if(world.moveableCell(desiredPos))
+
+		boolean b = world.moveableCell(desiredPos);
+		if(b)
 		{
-			b = true;
 			world.clearAntAt(position, this);
 			world.setAntAt(desiredPos, this); //This method updates the internal position var
 			combatCheck();
@@ -127,7 +132,6 @@ public class Ant extends Actor
 		}
 		else
 		{
-			b = false;
 		}
 		return b;
 	}

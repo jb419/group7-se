@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 05/06/1012 - 6
+ * @version 06/06/1012 - 3
  */
 public class Simulation extends SwingWorker<Void, Void>
 {
@@ -46,7 +46,7 @@ public class Simulation extends SwingWorker<Void, Void>
 		worldLoader = new WorldLoader();
 		isFinished = false;
 		
-		// A bit hacked together but hopefully itll work.
+		// A bit hacked together but hopefully it'll work.
 		WorldToken[][] wt = new WorldToken[150][150];
 		for(int i = 0; i < 150; i++)
 		{
@@ -72,7 +72,6 @@ public class Simulation extends SwingWorker<Void, Void>
 	
 	public void done()
 	{
-		
 	}
 	
 	private void updateGUI()

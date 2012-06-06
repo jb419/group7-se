@@ -7,7 +7,7 @@ import java.util.ArrayList;
  * and what to do.
  * 
  * @author Owen Cox
- * @version 05/06/1012 - 14
+ * @version 06/06/1012 - 3
  */
 //Will not work until ant is completed.
 public class AntBrain
@@ -52,6 +52,14 @@ public class AntBrain
 	 */
 	public void getNextInstruction()
 	{
+		if(!(currentState < states.length))
+		{
+			currentState = states.length - 1;
+		}
+		else if(currentState < 0)
+		{
+			currentState = 0;
+		}
 		State examinedState = states[currentState];
 		switch(states[currentState].getInstruction())
 		{
