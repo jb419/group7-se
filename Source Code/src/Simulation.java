@@ -27,7 +27,7 @@ public class Simulation extends SwingWorker<Void, Void>
 	private int numTicks;
 	private boolean sidesSwapped;
 	private boolean isFinished;
-	private final int roundLength = 300000;
+	private final int roundLength = 1000;
 	
 	/**
 	 * Constructor
@@ -61,12 +61,15 @@ public class Simulation extends SwingWorker<Void, Void>
 	
 	protected Void doInBackground() throws Exception
 	{
+	
 		while(RunChecker.isRunning())
 		{
 			step();
 			updateGUI();
 			Thread.sleep(5L);
+			
 		}
+		
 		return null;
 	}
 	
@@ -133,6 +136,11 @@ public class Simulation extends SwingWorker<Void, Void>
 					{
 						tournament.addPoints("red", 1);
 					}
+					//else if (foodRed == foodBlack)   // what if they draw???
+					//{
+					//	tournament.addPoints("red", 1);
+					//	tournament.addPoints("black", 1);
+					//}
 					else
 					{
 						tournament.addPoints("black", 1);
@@ -142,6 +150,7 @@ public class Simulation extends SwingWorker<Void, Void>
 					if(!sidesSwapped)
 					{
 						World.getWorld().swapSides(); //swap sides if necessary
+						sidesSwapped = true;
 					}
 					else if(tournament.hasMoreGames()) //otherwise get new players and world
 					{
