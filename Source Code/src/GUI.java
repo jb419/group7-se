@@ -42,7 +42,7 @@ public class GUI
 		playersAdded = new ArrayList<String>();
 		worldsAdded = new ArrayList<String>();
 		RunChecker rc = new RunChecker();
-		RunChecker.init();
+		RunChecker.stop();
 		build();
 	}
 	

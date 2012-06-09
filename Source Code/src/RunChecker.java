@@ -11,7 +11,7 @@ public class RunChecker
 	
 	private static State state;
 	
-	public static synchronized void init()
+	public static synchronized void stop()
 	{
 		state = State.Stopped;
 	}

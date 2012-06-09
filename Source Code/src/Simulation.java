@@ -28,6 +28,8 @@ public class Simulation extends SwingWorker<Void, Void>
 	private boolean sidesSwapped;
 	private boolean isFinished;
 	private final int roundLength = 300000;
+	private int redScore;
+	private int blackScore;
 	
 	/**
 	 * Constructor
@@ -41,6 +43,8 @@ public class Simulation extends SwingWorker<Void, Void>
 		foodBlack = 0;
 		redPlayer = "None";
 		blackPlayer = "None";
+		redScore = 0;
+		blackScore = 0;
 		numTicks = 0;
 		sidesSwapped = false;
 		worldLoader = new WorldLoader();
@@ -74,6 +78,10 @@ public class Simulation extends SwingWorker<Void, Void>
 	{
 	}
 	
+	/**
+	 * The updateGUI method updates the GUI, using the toStrings method of the World
+	 *
+	 */
 	private void updateGUI()
 	{
 		gui.updateScore("red", redPlayer, "" + foodRed); 
@@ -95,7 +103,28 @@ public class Simulation extends SwingWorker<Void, Void>
 	}
 	
 	/**
-	 * The step method plays a single step, that is, it updates the World once
+	 * The updatePoints method updates the points of the players based on the food totals from the game
+	 *
+	 */
+	private void updatePoints()
+	{
+		if(redScore > blackScore)
+		{
+			tournament.addPoints(redPlayer, 2);
+		}
+		else if(blackScore > redScore)
+		{
+			tournament.addPoints(blackPlayer, 2);
+		}
+		else
+		{
+			tournament.addPoints(blackPlayer, 1);
+			tournament.addPoints(redPlayer, 1);
+		}
+	}
+	
+	/**
+	 * The step method plays a single step, that is, it updates the World and all the ants once
 	 *
 	 */
 	public void step()
@@ -129,14 +158,8 @@ public class Simulation extends SwingWorker<Void, Void>
 				if(numTicks == roundLength)
 				{
 					//first update points as the end of a round has been reached
-					if(foodRed > foodBlack)
-					{
-						tournament.addPoints("red", 1);
-					}
-					else
-					{
-						tournament.addPoints("black", 1);
-					}
+					redScore += foodRed;
+					blackScore += foodBlack;
 					
 					//next see what type of round end it is
 					if(!sidesSwapped)
@@ -145,10 +168,13 @@ public class Simulation extends SwingWorker<Void, Void>
 					}
 					else if(tournament.hasMoreGames()) //otherwise get new players and world
 					{
+						updatePoints();
 						sidesSwapped = false;
 						String[] players = tournament.nextContestants();
 						redPlayer = players[0];
 						blackPlayer = players[1];
+						redScore = 0;
+						blackScore = 0;
 						//get new brains
 						String redBrainLoc = tournament.getBrain("red");
 						String blackBrainLoc = tournament.getBrain("black");
@@ -165,7 +191,9 @@ public class Simulation extends SwingWorker<Void, Void>
 					}
 					else
 					{
+						updatePoints();
 						isFinished = true; //if there aren't any more games left we're done here
+						RunChecker.stop();
 					}
 					numTicks = 0;
 				}
