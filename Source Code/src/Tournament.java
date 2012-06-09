@@ -112,7 +112,9 @@ public class Tournament
 		if (blackInt != enteredBrains.size())
 		{
 			contestants[0] = enteredBrains.get(blackInt).getPlayerName();
+			currentBlack = enteredBrains.get(blackInt);
 			contestants[1] = enteredBrains.get(redInt).getPlayerName();
+			currentRed = enteredBrains.get(redInt);
 			return contestants;
 		}
 		else
@@ -164,6 +166,9 @@ public class Tournament
 		if (blackInt == enteredBrains.size() && result.equals("Draw"))
 		{
 			return true;
+		}
+		else if (!result.equals("Draw")){
+			return false;
 		}
 		else if (blackInt < enteredBrains.size())
 		{

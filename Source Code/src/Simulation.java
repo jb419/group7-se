@@ -65,12 +65,15 @@ public class Simulation extends SwingWorker<Void, Void>
 	
 	protected Void doInBackground() throws Exception
 	{
+	
 		while(RunChecker.isRunning())
 		{
 			step();
 			updateGUI();
 			Thread.sleep(5L);
+			
 		}
+		
 		return null;
 	}
 	
@@ -165,6 +168,7 @@ public class Simulation extends SwingWorker<Void, Void>
 					if(!sidesSwapped)
 					{
 						World.getWorld().swapSides(); //swap sides if necessary
+						sidesSwapped = true;
 					}
 					else if(tournament.hasMoreGames()) //otherwise get new players and world
 					{

@@ -131,7 +131,7 @@ public class World
 			for(int col = 0; col < WORLD_SIZE; col++)
 			{
 				Cell c = new Cell();
-				cells[row][col] = c;
+				cells[col][row] = c;
 				switch(worldInitial[row][col].getType())
 				{
 					case Food://Add various stuff to cells
