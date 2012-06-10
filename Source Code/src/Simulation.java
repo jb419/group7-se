@@ -9,7 +9,7 @@ import javax.swing.SwingWorker;
 
  * 
  * @author Brett Flitter, Owen Cox
- * @version 06/06/1012 - 6
+ * @version 09/06/2012 - 3
  */
 public class Simulation extends SwingWorker<Void, Void>
 {
@@ -238,7 +238,7 @@ public class Simulation extends SwingWorker<Void, Void>
 				goodBrain = false;
 			}
 			
-
+			String message = "";
 			//Checking that the brain is syntactically correct
 			try
 			{
@@ -248,6 +248,7 @@ public class Simulation extends SwingWorker<Void, Void>
 			catch(Exception e)
 			{
 				goodBrain = false;
+				message = e.getMessage();
 			}
 
 			if (goodBrain)
@@ -257,7 +258,7 @@ public class Simulation extends SwingWorker<Void, Void>
 			}
 			else
 			{
-				gui.outPutError("Brain not syntactically correct!");
+				gui.outPutError("Brain not syntactically correct! " + message);
 			}
 		}
 		else

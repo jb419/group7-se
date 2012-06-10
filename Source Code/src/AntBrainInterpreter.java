@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 06/06/1012 - 3
+ * @version 09/06/2012 - 3
  */
 public class AntBrainInterpreter
 {
@@ -368,6 +368,10 @@ public class AntBrainInterpreter
 			{
 				throw new BrainException("keyword at start of new state", nextToken.getActualValue(), states.size() + 1);
 			}
+		}
+		if(states.size() == 0)
+		{
+			throw new BrainException("some state", "empty brain", 0);
 		}
 	}
 	

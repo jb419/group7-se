@@ -15,7 +15,7 @@ import javax.swing.*;
 
  * 
  * @author Brett Flitter
- * @version 05/06/2012 - 4
+ * @version 09/06/2012 - 3
  */
 public class GUI
 {
