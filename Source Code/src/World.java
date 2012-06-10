@@ -135,19 +135,19 @@ public class World
 				switch(worldInitial[row][col].getType())
 				{
 					case Food://Add various stuff to cells
-						for(int i = 0; i < 9; i++)
+						for(int i = 0; i < 5; i++)
 						{
 							c.addFood();
 						}
 						break;
 						
 					case RedAntHill:
-						System.out.println("RedAntHill " + hills[0].length + " at " + row + "," + col);
+						//System.out.println("RedAntHill " + hills[0].length + " at " + row + "," + col);
 						addAntHill(AntColour.Black, c);
 						break;
 						
 					case BlackAntHill:
-						System.out.println("BlackAntHill " + hills[1].length + " at " + row + "," + col);
+						//System.out.println("BlackAntHill " + hills[1].length + " at " + row + "," + col);
 						addAntHill(AntColour.Red, c);
 						break;
 						

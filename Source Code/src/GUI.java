@@ -67,21 +67,27 @@ public class GUI
 		topPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 20, 10));
 		
 		// make player1Score Label
-		blackScoreLabel = new JLabel("player1Score", JLabel.CENTER);
-		blackScoreLabel.setBorder(BorderFactory.createLineBorder(Color.black)); // let's see the label!  
+		blackScoreLabel = new JLabel("Player1 Score", JLabel.CENTER);
+		blackScoreLabel.setBorder(BorderFactory.createLineBorder(Color.lightGray)); // let's see the label! 
 		blackScoreLabel.setPreferredSize(new Dimension(250, 30)); 
+		blackScoreLabel.setForeground(Color.white);
+		blackScoreLabel.setBackground(Color.black);
+		blackScoreLabel.setOpaque(true);
 		topPanel.add(blackScoreLabel);
 		
 		// make round Label
-		roundLabel = new JLabel("round", JLabel.CENTER);
+		roundLabel = new JLabel("Round", JLabel.CENTER);
 		roundLabel.setBorder(BorderFactory.createLineBorder(Color.black)); // let's see the label!  
         roundLabel.setPreferredSize(new Dimension(150, 30)); 
 		topPanel.add(roundLabel);
 		
 		// make player2Score Label
-		redScoreLabel = new JLabel("player2Score", JLabel.CENTER);
-		redScoreLabel.setBorder(BorderFactory.createLineBorder(Color.black)); // let's see the label!  
+		redScoreLabel = new JLabel("Player2 Score", JLabel.CENTER); 
+		redScoreLabel.setBorder(BorderFactory.createLineBorder(Color.lightGray)); // let's see the label! 
 		redScoreLabel.setPreferredSize(new Dimension(250, 30)); 
+		redScoreLabel.setForeground(Color.white);
+		redScoreLabel.setBackground(Color.red);
+		redScoreLabel.setOpaque(true);
 		topPanel.add(redScoreLabel);
 		
 		
@@ -94,7 +100,7 @@ public class GUI
 
 		//make player names text field
 		playerNameTextField = new JTextField();
-		playerNameTextField.setText(" Enter player's name with their brain location");
+		playerNameTextField.setText(" Enter player's name with their brain location,    e.g. Bob;N:\\brain.ant");
 		playerNameTextField.setPreferredSize(new Dimension(600, 30)); 
 		playerNameTextField.addMouseListener(new TextFieldMouseListener());
 		bottomPanel.add(playerNameTextField);
@@ -107,7 +113,7 @@ public class GUI
 		
 		//make file location text field
 		worldLocationTextField = new JTextField();
-		worldLocationTextField.setText(" Enter world locations");
+		worldLocationTextField.setText(" Enter world location or generate a random world,    e.g. N:\\world1.world  - or -  'random'");
 		worldLocationTextField.setPreferredSize(new Dimension(600, 30));
 		worldLocationTextField.addMouseListener(new TextFieldMouseListener());
 		bottomPanel.add(worldLocationTextField);
@@ -350,42 +356,49 @@ public class GUI
 		@Override
 		public void actionPerformed(ActionEvent event)
 		{
-			// make sure text field is not empty or previous text remains before adding
-			if (!playerNameTextField.getText().equals("") && !playersAdded.contains(playerNameTextField.getText()) && !playerNameTextField.getText().contains("Enter"))
+			if (playersAdded.size() <= 16)
 			{
-				playersAdded.add(playerNameTextField.getText());
-				simulation.addPlayerAndBrain(playerNameTextField.getText());
-				playerNameTextField.setText("");
-			}
+				// make sure text field is not empty or previous text remains before adding
+				if (!playerNameTextField.getText().equals("") && !playersAdded.contains(playerNameTextField.getText()) && !playerNameTextField.getText().contains("Enter"))
+				{
+					playersAdded.add(playerNameTextField.getText());
+					simulation.addPlayerAndBrain(playerNameTextField.getText());
+					playerNameTextField.setText("");
+				}
 			
-			if (playersAdded.contains(playerNameTextField.getText()))
-			{
-				outPutError("Input in world text field has already been seen");
-				playerNameTextField.setText("");
-			}
+				if (playersAdded.contains(playerNameTextField.getText()))
+				{
+					outPutError("Input in world text field has already been seen");
+					playerNameTextField.setText("");
+				}
 			
 
-			// make sure text field is not empty or previous text remains before adding
-			if  (!worldLocationTextField.getText().equals("")  && !worldsAdded.contains(worldLocationTextField.getText())  && !worldLocationTextField.getText().contains("Enter"))
-			{
-				if (worldLocationTextField.getText().equals("random"))
+				// make sure text field is not empty or previous text remains before adding
+				if  (!worldLocationTextField.getText().equals("")  && !worldsAdded.contains(worldLocationTextField.getText())  && !worldLocationTextField.getText().contains("Enter"))
 				{
-					simulation.addWorldLocation(worldLocationTextField.getText());
-					worldLocationTextField.setText("");
-				}
-				else
-				{
-					worldsAdded.add(worldLocationTextField.getText());
-					simulation.addWorldLocation(worldLocationTextField.getText());
-					worldLocationTextField.setText("");
-				}
+					if (worldLocationTextField.getText().equals("random"))
+					{
+						simulation.addWorldLocation(worldLocationTextField.getText());
+						worldLocationTextField.setText("");
+					}
+					else
+					{
+						worldsAdded.add(worldLocationTextField.getText());
+						simulation.addWorldLocation(worldLocationTextField.getText());
+						worldLocationTextField.setText("");
+					}
 
-			}
+				}
 			
-			if (worldsAdded.contains(worldLocationTextField.getText()))
+				if (worldsAdded.contains(worldLocationTextField.getText()))
+				{
+					outPutError("Input in world text field has already been seen");
+					worldLocationTextField.setText("");
+				}
+			}
+			else
 			{
-				outPutError("Input in world text field has already been seen");
-				worldLocationTextField.setText("");
+				outPutError("Can't add any more players, please delete player from text field!");
 			}
 
 			

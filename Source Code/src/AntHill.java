@@ -2,8 +2,8 @@
 /**
  * 
  * 
- * @author Owen Cox
- * @version 23/05/2012 - 1
+ * @author Owen Cox, Brett Flitter 
+ * @version 09/06/2012 - 2
  */
 public class AntHill extends Actor
 {
@@ -24,7 +24,7 @@ public class AntHill extends Actor
 		}
 		else
 		{
-			setStringVal("-");
+			setStringVal("x"); // changed from '-' to 'x' because it was easier to see in the world when running
 		}
 	}
 	

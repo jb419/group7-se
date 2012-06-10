@@ -4,7 +4,7 @@ import java.util.Random;
  * This Class generates a random world
  * 
  * @author Brett Flitter
- * @version 06/06/2012 - 2
+ * @version 09/06/2012 - 3
  * 
  */
 
@@ -85,12 +85,14 @@ public class WorldGenerator {
 		if(!worldChecker.checkWorld(world)) {
 			generate();
 		}
-		else
-		{
-			return world;
-		}
 		
-		return null;
+		
+			
+		
+		return world;
+		
+		
+		
 
 	}
 	

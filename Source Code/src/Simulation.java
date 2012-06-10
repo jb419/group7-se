@@ -27,7 +27,7 @@ public class Simulation extends SwingWorker<Void, Void>
 	private int numTicks;
 	private boolean sidesSwapped;
 	private boolean isFinished;
-	private final int roundLength = 300000;
+	private final int roundLength = 100;
 	private int redScore;
 	private int blackScore;
 	
@@ -77,9 +77,6 @@ public class Simulation extends SwingWorker<Void, Void>
 		return null;
 	}
 	
-	public void done()
-	{
-	}
 	
 	/**
 	 * The updateGUI method updates the GUI, using the toStrings method of the World
@@ -113,16 +110,16 @@ public class Simulation extends SwingWorker<Void, Void>
 	{
 		if(redScore > blackScore)
 		{
-			tournament.addPoints(redPlayer, 2);
+			tournament.addPoints("red", 2);
 		}
 		else if(blackScore > redScore)
 		{
-			tournament.addPoints(blackPlayer, 2);
+			tournament.addPoints("black", 2);
 		}
 		else
 		{
-			tournament.addPoints(blackPlayer, 1);
-			tournament.addPoints(redPlayer, 1);
+			tournament.addPoints("black", 1);  
+			tournament.addPoints("red", 1);
 		}
 	}
 	
@@ -135,8 +132,8 @@ public class Simulation extends SwingWorker<Void, Void>
 		if(World.getWorld() == null)
 		{
 			String[] players = tournament.nextContestants();
-			redPlayer = players[0];
-			blackPlayer = players[1];
+			blackPlayer = players[0];
+			redPlayer = players[1];
 			foodRed = 0;
 			foodBlack = 0;
 			String redBrainLoc = tournament.getBrain(redPlayer);
@@ -170,18 +167,25 @@ public class Simulation extends SwingWorker<Void, Void>
 						World.getWorld().swapSides(); //swap sides if necessary
 						sidesSwapped = true;
 					}
+					
 					else if(tournament.hasMoreGames()) //otherwise get new players and world
 					{
 						updatePoints();
 						sidesSwapped = false;
 						String[] players = tournament.nextContestants();
-						redPlayer = players[0];
-						blackPlayer = players[1];
+						if(players == null)
+						{
+							isFinished = true; //if there aren't any more games left we're done here
+							RunChecker.stop();
+							updateGUI();
+						}
+						blackPlayer = players[0];
+						redPlayer = players[1];
 						redScore = 0;
 						blackScore = 0;
 						//get new brains
-						String redBrainLoc = tournament.getBrain("red");
-						String blackBrainLoc = tournament.getBrain("black");
+						String redBrainLoc = tournament.getBrain(redPlayer);
+						String blackBrainLoc = tournament.getBrain(blackPlayer);
 						
 						if(tournament.hasWorld())
 						{

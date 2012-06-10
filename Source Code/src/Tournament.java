@@ -13,6 +13,7 @@ public class Tournament
 {
 	private ArrayList<WorldToken[][]> enteredWorlds;
 	private ArrayList<Entry> enteredBrains;
+	private ArrayList<Entry> sortedScores;
 	private Entry currentRed;
 	private Entry currentBlack;
 	private int redInt;
@@ -25,6 +26,7 @@ public class Tournament
 	{	
 		enteredBrains = new ArrayList<Entry>();
 		enteredWorlds = new ArrayList<WorldToken[][]>();
+		sortedScores = new ArrayList<Entry>();
 
 	}
 	
@@ -100,7 +102,8 @@ public class Tournament
 	public String[] nextContestants()  
 	{
 		String[] contestants = new String[2];
-		if (redInt < enteredBrains.size())
+
+		if (redInt < enteredBrains.size() -1) 
 		{
 			redInt++;
 		}
@@ -109,7 +112,8 @@ public class Tournament
 			blackInt++;
 			redInt = blackInt + 1;
 		}
-		if (blackInt != enteredBrains.size())
+
+		if (blackInt != enteredBrains.size()-1)
 		{
 			contestants[0] = enteredBrains.get(blackInt).getPlayerName();
 			currentBlack = enteredBrains.get(blackInt);
@@ -123,16 +127,24 @@ public class Tournament
 			if (hasMoreGames())
 			{
 				//it was an overall draw, getVictor replaces previous players in enteredBrains with the drawing players
-				contestants[0] = enteredBrains.get(0).getPlayerName();
-				contestants[1] = enteredBrains.get(1).getPlayerName();
+				redInt = 1;
+				blackInt = 0;
+				// must be a draw so wipe old players from enteredBrains and add the players that need a re-match
+				enteredBrains.clear();
+				for ( Entry e : sortedScores)
+				{
+					enteredBrains.add(e);
+				}
+
+				contestants[0] = sortedScores.get(0).getPlayerName();
+				currentBlack = enteredBrains.get(0);
+				contestants[1] = sortedScores.get(1).getPlayerName();
+				currentRed = enteredBrains.get(1);
 				return contestants;
 			}
 			else
 			{
-				//There's a winner so return no one
-				contestants[0] = "";
-				contestants[1] = "";
-				return contestants;
+				return null;
 			}
 		}
 	}
@@ -163,14 +175,11 @@ public class Tournament
 	public boolean hasMoreGames()
 	{
 		String result = getVictor();
-		if (blackInt == enteredBrains.size() && result.equals("Draw"))
+		if (blackInt == enteredBrains.size()-1 && result.equals("Draw"))
 		{
 			return true;
 		}
-		else if (!result.equals("Draw")){
-			return false;
-		}
-		else if (blackInt < enteredBrains.size())
+		else if (blackInt < enteredBrains.size()-1)
 		{
 			return true;
 		}
@@ -186,7 +195,7 @@ public class Tournament
 	 */
 	public String getVictor()
 	{
-		ArrayList<Entry> sortedScores = new ArrayList<Entry>();
+		sortedScores.clear();
 		sortedScores.add(enteredBrains.get(0)); // add first entry to test against
 		
 		for (int i = 1; i < enteredBrains.size(); i++)
@@ -204,12 +213,6 @@ public class Tournament
 		}
 		if (sortedScores.size() > 1)
 		{
-			// must be a draw so wipe old players from enteredBrains and add the players that need a re-match
-			enteredBrains.clear();
-			for ( Entry e : sortedScores)
-			{
-				enteredBrains.add(e);
-			}
 			return "Draw";
 		}
 		else
