@@ -27,7 +27,7 @@ public class Simulation extends SwingWorker<Void, Void>
 	private int numTicks;
 	private boolean sidesSwapped;
 	private boolean isFinished;
-	private final int roundLength = 100;
+	private final int roundLength = 300000;
 	private int redScore;
 	private int blackScore;
 	
