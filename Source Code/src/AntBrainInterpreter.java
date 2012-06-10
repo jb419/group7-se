@@ -379,11 +379,12 @@ public class AntBrainInterpreter
 	{
 		try
 		{
-			AntBrainInterpreter a = new AntBrainInterpreter("C:\\Users\\Owen\\ant.ant");
+			AntBrainInterpreter a = new AntBrainInterpreter("C:\\Users\\James Bedson\\Documents\\GitHub\\group7-se\\brain.ant");
 			for(int i = 0; i < a.getStates().size(); i++)
 			{
 				System.out.println(a.getStates().get(i));
 			}
+			System.out.println(a.getStates().size());
 		}
 		catch(Exception e)
 		{
