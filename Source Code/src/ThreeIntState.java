@@ -4,7 +4,7 @@
  * additional int, it is used for the flip instruction.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 2
+ * @version 09/06/2012 - 4
  */
 public class ThreeIntState extends TwoIntState
 {
@@ -30,5 +30,15 @@ public class ThreeIntState extends TwoIntState
 	public int getThirdInt()
 	{
 		return thirdInt;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 * 
+	 * @return the State 
+	 */
+	public String toString()
+	{
+		return getInstruction() + " " + getThirdInt() + " " + getNextState() + " " + getOtherInt();
 	}
 }

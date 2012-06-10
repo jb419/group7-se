@@ -5,7 +5,7 @@
  * move needs a state to jump to if it can move as well as one if it cannot.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 2
+ * @version 09/06/2012 - 4
  */
 public class TwoIntState extends State
 {
@@ -34,5 +34,24 @@ public class TwoIntState extends State
 	public int getOtherInt()
 	{
 		return otherInt;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 */
+	public String toString()
+	{
+		String s  = "";
+		if(getInstruction() == Instruction.Mark || getInstruction() == Instruction.Unmark)
+		{
+			s += this.getOtherInt() + " ";
+			s += this.getNextState();
+		}
+		else
+		{
+			s += this.getNextState() + " ";
+			s += this.getOtherInt();
+		}
+		return getInstruction() + " " + s;
 	}
 }

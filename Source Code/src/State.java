@@ -6,7 +6,7 @@
  * to allow different instructions to store more data.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 1
+ * @version 09/06/2012 - 4
  */
 public class State
 {
@@ -43,5 +43,13 @@ public class State
 	public Instruction getInstruction()
 	{
 		return instruction;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 */
+	public String toString()
+	{
+		return instruction + " " + nextState;
 	}
 }

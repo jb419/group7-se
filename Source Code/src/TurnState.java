@@ -4,7 +4,7 @@
  * enum to signify if it is a left or a right turn.
  * 
  * @author Owen Cox
- * @version 04/06/2012 - 1
+ * @version 09/06/2012 - 4
  */
 public class TurnState extends State
 {
@@ -32,5 +32,13 @@ public class TurnState extends State
 	public LeftOrRight getLeftOrRight()
 	{
 		return lr;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 */
+	public String toString()
+	{
+		return getInstruction() + " " + getLeftOrRight() + " " + getNextState();
 	}
 }

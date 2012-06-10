@@ -5,7 +5,7 @@ import java.util.ArrayList;
  * into states for the AntBrain to be assigned.
  * 
  * @author Owen Cox
- * @version 09/06/2012 - 3
+ * @version 09/06/2012 - 4
  */
 public class AntBrainInterpreter
 {
@@ -382,7 +382,7 @@ public class AntBrainInterpreter
 			AntBrainInterpreter a = new AntBrainInterpreter("C:\\Users\\Owen\\ant.ant");
 			for(int i = 0; i < a.getStates().size(); i++)
 			{
-				System.out.println(a.getStates().get(i).getInstruction());
+				System.out.println(a.getStates().get(i));
 			}
 		}
 		catch(Exception e)

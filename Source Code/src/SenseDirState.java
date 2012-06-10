@@ -5,7 +5,7 @@
  * SenseDir instruction.
  * 
  * @author Owen Cox
- * @version 18/05/2012 - 1
+ * @version 09/06/2012 - 4
  */
 public class SenseDirState extends TwoIntState
 {
@@ -48,5 +48,13 @@ public class SenseDirState extends TwoIntState
 	public SensingDirection getSenseDir()
 	{
 		return senseDir;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 */
+	public String toString()
+	{
+		return getInstruction() + " " + senseDir + " " + getNextState() + " " + getOtherInt() + " " + condition;
 	}
 }

@@ -4,7 +4,7 @@
  * store what number of marker it should be looking for.
  * 
  * @author Owen Cox
- * @version 27/05/2012 - 1
+ * @version 09/06/2012 - 4
  */
 public class SenseDirMarkerState extends SenseDirState
 {
@@ -35,5 +35,13 @@ public class SenseDirMarkerState extends SenseDirState
 	public int getMarkerNumber()
 	{
 		return markerNumber;
+	}
+	
+	/**
+	 * Overrides toString to output the state in the way it looks in the raw input
+	 */
+	public String toString()
+	{
+		return super.toString() + " " + getMarkerNumber();
 	}
 }
