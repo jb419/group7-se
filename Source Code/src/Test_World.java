@@ -51,15 +51,4 @@ public class Test_World
 		assertTrue(findAnt() == true);
 	}
 
-	/**
-	 * The findAnt method
-	 *
-	 * @return
-	 */
-	private boolean findAnt()
-	{
-		// TODO Auto-generated method stub
-		return false;
-	}
-
 }
