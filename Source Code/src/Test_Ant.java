@@ -97,7 +97,7 @@ public class Test_Ant{
 		o[1] = 51;
 		w.mark(o, AntColour.Black, 0);
 		a.sense(Condition.BlackMarker, SensingDirection.Ahead);
-		assertTrue(a.sense(Condition.BlackMarker, SensingDirection.Ahead) == true);
+		assert(a.sense(Condition.BlackMarker, SensingDirection.Ahead));
 	}
 	//Tests that checks if a Ant leaves a sense marker.
 	@Test
@@ -173,6 +173,6 @@ public class Test_Ant{
 		Ant j = new Ant(w, AntColour.Red);
 		w.setAntAt(t, j);
 		a.move();
-		assertTrue(a.isAlive() == true);
+		assert(a.isSurrounded());
 	}
 }
