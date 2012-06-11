@@ -11,9 +11,9 @@ import org.junit.Test;
  */
 public class Test_AntHill
 {
-	//Test to see if AntHill is a AntHill.
+	//Test to see if AntHill is the correct colour.
 	@Test
-	public void test_AntHill()
+	public void test_IsAntHill()
 	{
 		AntHill h = new AntHill(AntColour.Black);
 		assertTrue(h.isAntHill(AntColour.Black) == true);

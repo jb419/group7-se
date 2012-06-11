@@ -22,7 +22,10 @@ public class Test_Tournament
 		world[i][c] = new WorldToken(WorldTokenType.Empty);
 	}
 	}
-	World w = World.getNewWorld("C:\\Users\\Razor\\Documents\\GitHub\\group7-se\\brain.ant", "C:\\Users\\Razor\\Documents\\GitHub\\group7-se\\brain.ant", world);
-	assert(w.hashCode() != 0);
+	World w = World.getNewWorld("C:\\Users\\James Bedson\\Documents\\GitHub\\group7-se\\brain.ant", "C:\\Users\\James Bedson\\Documents\\GitHub\\group7-se\\brain.ant", world);
+	//assert(w.hashCode() != 0);
+	Tournament t = new Tournament();
+	t.addWorld(world);
+	assertTrue(t.hasWorld() == true);
 	}
 }
