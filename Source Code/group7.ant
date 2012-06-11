@@ -1,0 +1,38 @@
+Sense Ahead 37 1 Food 
+Sense Ahead 2 7 Marker 1
+Sense LeftAhead 3 5 Marker 1
+Sense RightAhead 10 4 Marker 1
+Turn Right 8
+Turn Left 8
+Sense Ahead 14 8 Rock
+Move 36 10
+Move 9 10
+Pickup 17 10
+Flip 3 11 7
+Flip 2 12 13
+Turn Left 0
+Turn Right 0
+Turn Left 15
+Sense RightAhead 16 10 Rock
+Move 15 6
+Sense Ahead 34 18 Home
+Sense LeftAhead 32 19 Home
+Sense RightAhead 33 20 Home
+Sense Ahead 30 21 Marker 1
+Sense LeftAhead 28 22 Marker 1
+Sense RightAhead 29 23 Marker 1
+Flip 2 24 27
+Flip 2 25 26
+Turn Left 27
+Turn Right 27
+Move 17 17
+Turn Left 30
+Turn Right 30
+Move 31 17
+Unmark 1 17
+Turn Left 34
+Turn Right 34
+Move 35 17
+Drop 0
+Mark 1 0
+Sense Here 10 8 Home
