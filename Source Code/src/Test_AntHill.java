@@ -15,8 +15,8 @@ public class Test_AntHill
 	@Test
 	public void test_AntHill()
 	{
-		AntHill h = new AntHill(null);
-		assertTrue(h.isAntHill(null) == true);
+		AntHill h = new AntHill(AntColour.Black);
+		assertTrue(h.isAntHill(AntColour.Black) == true);
 	}
 
 }
