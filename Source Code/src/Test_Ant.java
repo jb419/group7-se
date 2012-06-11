@@ -97,7 +97,7 @@ public class Test_Ant{
 		o[1] = 51;
 		w.mark(o, AntColour.Black, 0);
 		a.sense(Condition.BlackMarker, SensingDirection.Ahead);
-		assertTrue(a.sense(Condition.BlackMarker, SensingDirection.Ahead) == 0);
+		assertTrue(a.sense(Condition.BlackMarker, SensingDirection.Ahead) == true);
 	}
 	//Tests that checks if a Ant leaves a sense marker.
 	@Test
